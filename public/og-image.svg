@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="bgBlue" cx="18%" cy="18%" r="55%" gradientUnits="userSpaceOnUse"
+      x1="0" y1="0" x2="1200" y2="630">
+      <stop offset="0%" stop-color="#0d2a5c" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#070B14" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bgRed" cx="82%" cy="82%" r="55%" gradientUnits="userSpaceOnUse"
+      x1="0" y1="0" x2="1200" y2="630">
+      <stop offset="0%" stop-color="#4a1010" stop-opacity="0.65"/>
+      <stop offset="100%" stop-color="#070B14" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%" gradientUnits="userSpaceOnUse"
+      cx="600" cy="315" r="420">
+      <stop offset="0%" stop-color="#FFD700" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#FFD700" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background layers -->
+  <rect width="1200" height="630" fill="#070B14"/>
+  <rect width="1200" height="630" fill="url(#bgBlue)"/>
+  <rect width="1200" height="630" fill="url(#bgRed)"/>
+  <ellipse cx="600" cy="315" rx="560" ry="300" fill="url(#glow)"/>
+
+  <!-- Outer frame -->
+  <rect x="18" y="18" width="1164" height="594" fill="none" stroke="#FFD700" stroke-width="1" opacity="0.18"/>
+
+  <!-- Corner ornaments - top left -->
+  <polyline points="18,64 18,18 64,18" fill="none" stroke="#FFD700" stroke-width="2.5" opacity="0.5" stroke-linecap="round"/>
+  <!-- Corner ornaments - top right -->
+  <polyline points="1136,18 1182,18 1182,64" fill="none" stroke="#FFD700" stroke-width="2.5" opacity="0.5" stroke-linecap="round"/>
+  <!-- Corner ornaments - bottom left -->
+  <polyline points="18,566 18,612 64,612" fill="none" stroke="#FFD700" stroke-width="2.5" opacity="0.5" stroke-linecap="round"/>
+  <!-- Corner ornaments - bottom right -->
+  <polyline points="1136,612 1182,612 1182,566" fill="none" stroke="#FFD700" stroke-width="2.5" opacity="0.5" stroke-linecap="round"/>
+
+  <!-- Trophy shape -->
+  <!-- Bowl -->
+  <path d="M 556 78 C 554 58 646 58 644 78 L 636 148 Q 600 162 564 148 Z"
+        fill="#B8860B" opacity="0.85"/>
+  <path d="M 558 80 C 556 62 644 62 642 80 L 634 146 Q 600 160 566 146 Z"
+        fill="#FFD700" opacity="0.6"/>
+  <!-- Left handle -->
+  <path d="M 558 92 Q 520 92 520 122 Q 520 152 558 152" fill="none"
+        stroke="#FFD700" stroke-width="7" stroke-linecap="round" opacity="0.75"/>
+  <!-- Right handle -->
+  <path d="M 642 92 Q 680 92 680 122 Q 680 152 642 152" fill="none"
+        stroke="#FFD700" stroke-width="7" stroke-linecap="round" opacity="0.75"/>
+  <!-- Stem -->
+  <rect x="592" y="148" width="16" height="36" fill="#FFD700" opacity="0.7" rx="2"/>
+  <!-- Base plate -->
+  <rect x="566" y="184" width="68" height="11" fill="#FFD700" opacity="0.65" rx="3"/>
+  <rect x="554" y="195" width="92" height="9" fill="#FFD700" opacity="0.5" rx="3"/>
+
+  <!-- Top eyebrow label -->
+  <text x="600" y="268"
+    text-anchor="middle"
+    font-family="Liberation Sans, Arial, Helvetica, sans-serif"
+    font-size="13"
+    letter-spacing="7"
+    fill="#FFD700"
+    opacity="0.55">MONTE CARLO ANALYSIS  ·  1,000 SIMULATIONS</text>
+
+  <!-- Hairline separator -->
+  <line x1="420" y1="282" x2="780" y2="282" stroke="#FFD700" stroke-width="0.5" opacity="0.2"/>
+
+  <!-- Main title -->
+  <text x="600" y="368"
+    text-anchor="middle"
+    font-family="Liberation Serif, Georgia, 'Times New Roman', serif"
+    font-size="76"
+    font-weight="400"
+    letter-spacing="0"
+    fill="#FFD700">FIFA World Cup 2026&#x2122;</text>
+
+  <!-- Hairline separator below title -->
+  <line x1="220" y1="392" x2="980" y2="392" stroke="#FFD700" stroke-width="0.5" opacity="0.2"/>
+
+  <!-- Subtitle -->
+  <text x="600" y="448"
+    text-anchor="middle"
+    font-family="Liberation Serif, Georgia, 'Times New Roman', serif"
+    font-size="27"
+    letter-spacing="6"
+    fill="#E8E4D4"
+    opacity="0.5">PROBABILITY  SIMULATOR</text>
+
+  <!-- Stats row -->
+  <text x="600" y="524"
+    text-anchor="middle"
+    font-family="Liberation Sans, Arial, Helvetica, sans-serif"
+    font-size="15"
+    letter-spacing="4"
+    fill="white"
+    opacity="0.28">48 TEAMS  ·  12 GROUPS  ·  104 MATCHES  ·  FULL BRACKET</text>
+
+  <!-- Top contenders row -->
+  <text x="600" y="574"
+    text-anchor="middle"
+    font-family="Liberation Sans, Arial, Helvetica, sans-serif"
+    font-size="13"
+    letter-spacing="3"
+    fill="#FFD700"
+    opacity="0.35">FRA  ·  ESP  ·  ARG  ·  ENG  ·  POR  ·  GER  ·  BRA  ·  NED</text>
+
+  <!-- URL -->
+  <text x="600" y="606"
+    text-anchor="middle"
+    font-family="Liberation Sans, Arial, Helvetica, sans-serif"
+    font-size="11"
+    letter-spacing="2"
+    fill="white"
+    opacity="0.18">doctor69.github.io/worldcup</text>
+</svg>
