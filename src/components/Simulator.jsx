@@ -117,41 +117,59 @@ function simulateMatch(codeA, codeB, knockoutMode = false) {
   return { winner: codeB, loser: codeA };
 }
 
-function simulateGroup(groupTeams) {
+function simulateGroup(groupTeams, liveMatches = []) {
   const standings = {};
   groupTeams.forEach(t => standings[t] = { pts: 0, gd: 0, gf: 0, played: 0 });
-  
+
   for (let i = 0; i < groupTeams.length; i++) {
     for (let j = i + 1; j < groupTeams.length; j++) {
       const a = groupTeams[i], b = groupTeams[j];
-      const result = simulateMatch(a, b);
       standings[a].played++;
       standings[b].played++;
-      
-      const sA = getTeamStrength(a);
-      const sB = getTeamStrength(b);
-      const avgGoals = 2.4;
-      const goalsA = Math.max(0, Math.round((sA / (sA + sB)) * avgGoals * (0.7 + Math.random() * 0.6)));
-      const goalsB = Math.max(0, Math.round((sB / (sA + sB)) * avgGoals * (0.7 + Math.random() * 0.6)));
-      
-      if (result.draw) {
-        standings[a].pts += 1;
-        standings[b].pts += 1;
-        const drawGoals = Math.round(1 + Math.random() * 2);
-        standings[a].gf += drawGoals;
-        standings[b].gf += drawGoals;
-      } else if (result.winner === a) {
-        standings[a].pts += 3;
-        standings[a].gf += Math.max(goalsA, goalsB + 1);
-        standings[b].gf += goalsB;
-        standings[a].gd += (Math.max(goalsA, goalsB + 1) - goalsB);
-        standings[b].gd -= (Math.max(goalsA, goalsB + 1) - goalsB);
+
+      const real = liveMatches.find(m =>
+        (m.homeTeam === a && m.awayTeam === b) ||
+        (m.homeTeam === b && m.awayTeam === a)
+      );
+
+      if (real && real.status === 'FINISHED' && real.homeScore !== null) {
+        const homeIsA = real.homeTeam === a;
+        const gA = homeIsA ? real.homeScore : real.awayScore;
+        const gB = homeIsA ? real.awayScore : real.homeScore;
+        standings[a].gf += gA;
+        standings[b].gf += gB;
+        standings[a].gd += gA - gB;
+        standings[b].gd += gB - gA;
+        if (gA > gB) standings[a].pts += 3;
+        else if (gB > gA) standings[b].pts += 3;
+        else { standings[a].pts += 1; standings[b].pts += 1; }
       } else {
-        standings[b].pts += 3;
-        standings[b].gf += Math.max(goalsB, goalsA + 1);
-        standings[a].gf += goalsA;
-        standings[b].gd += (Math.max(goalsB, goalsA + 1) - goalsA);
-        standings[a].gd -= (Math.max(goalsB, goalsA + 1) - goalsA);
+        const result = simulateMatch(a, b);
+        const sA = getTeamStrength(a);
+        const sB = getTeamStrength(b);
+        const avgGoals = 2.4;
+        const goalsA = Math.max(0, Math.round((sA / (sA + sB)) * avgGoals * (0.7 + Math.random() * 0.6)));
+        const goalsB = Math.max(0, Math.round((sB / (sA + sB)) * avgGoals * (0.7 + Math.random() * 0.6)));
+
+        if (result.draw) {
+          standings[a].pts += 1;
+          standings[b].pts += 1;
+          const drawGoals = Math.round(1 + Math.random() * 2);
+          standings[a].gf += drawGoals;
+          standings[b].gf += drawGoals;
+        } else if (result.winner === a) {
+          standings[a].pts += 3;
+          standings[a].gf += Math.max(goalsA, goalsB + 1);
+          standings[b].gf += goalsB;
+          standings[a].gd += (Math.max(goalsA, goalsB + 1) - goalsB);
+          standings[b].gd -= (Math.max(goalsA, goalsB + 1) - goalsB);
+        } else {
+          standings[b].pts += 3;
+          standings[b].gf += Math.max(goalsB, goalsA + 1);
+          standings[a].gf += goalsA;
+          standings[b].gd += (Math.max(goalsB, goalsA + 1) - goalsA);
+          standings[a].gd -= (Math.max(goalsB, goalsA + 1) - goalsA);
+        }
       }
     }
   }
@@ -165,13 +183,14 @@ function simulateGroup(groupTeams) {
   return { sorted, standings };
 }
 
-function runFullTournament() {
+function runFullTournament(liveGroupMatches = []) {
   // Group stage
   const groupResults = {};
   const allThirdPlace = [];
-  
+
   Object.entries(GROUPS).forEach(([grp, teams]) => {
-    const { sorted, standings } = simulateGroup(teams);
+    const groupLive = liveGroupMatches.filter(m => m.group === grp);
+    const { sorted, standings } = simulateGroup(teams, groupLive);
     groupResults[grp] = { winner: sorted[0], runnerUp: sorted[1], third: sorted[2], fourth: sorted[3], standings };
     allThirdPlace.push({ code: sorted[2], pts: standings[sorted[2]].pts, gd: standings[sorted[2]].gd, group: grp });
   });
@@ -262,7 +281,7 @@ function runFullTournament() {
 // ============================================================
 // MONTE CARLO: Run 1000 simulations
 // ============================================================
-function runMonteCarloSimulation(iterations = 1000) {
+function runMonteCarloSimulation(iterations = 1000, liveGroupMatches = []) {
   const wins = {};
   const finals = {};
   const semis = {};
@@ -278,7 +297,7 @@ function runMonteCarloSimulation(iterations = 1000) {
   });
   
   for (let i = 0; i < iterations; i++) {
-    const result = runFullTournament();
+    const result = runFullTournament(liveGroupMatches);
     if (result.champion) wins[result.champion]++;
     if (result.runnerUp) finals[result.runnerUp]++;
     if (result.champion) finals[result.champion]++;
@@ -335,23 +354,32 @@ export default function App() {
   const [activeTab, setActiveTab] = useState("overview");
   const [selectedGroup, setSelectedGroup] = useState("A");
   const [sortBy, setSortBy] = useState("win");
+  const [liveData, setLiveData] = useState({ groupMatches: [], knockoutMatches: [], lastUpdated: null });
   const workerRef = useRef(null);
+
+  useEffect(() => {
+    fetch('/worldcup/results.json')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (data) setLiveData(data); })
+      .catch(() => {});
+  }, []);
+
+  const finishedCount = (liveData.groupMatches || []).filter(m => m.status === 'FINISHED').length;
 
   const runSimulation = useCallback(() => {
     setRunning(true);
     setProgress(0);
     setSimResults(null);
-    
-    // Simulate progress animation
+
     let p = 0;
     const interval = setInterval(() => {
       p += Math.random() * 4;
       if (p >= 95) { p = 95; clearInterval(interval); }
       setProgress(Math.min(95, p));
     }, 80);
-    
+
     setTimeout(() => {
-      const results = runMonteCarloSimulation(1000);
+      const results = runMonteCarloSimulation(1000, liveData.groupMatches || []);
       clearInterval(interval);
       setProgress(100);
       setTimeout(() => {
@@ -360,7 +388,7 @@ export default function App() {
         setProgress(0);
       }, 400);
     }, 100);
-  }, []);
+  }, [liveData]);
 
   const getColor = (pct, type) => {
     const v = parseFloat(pct);
@@ -427,6 +455,25 @@ export default function App() {
         <div style={{ fontSize: 13, color: "rgba(232,228,212,0.5)", marginTop: 6, letterSpacing: 1 }}>
           48 Teams · 12 Groups · 104 Matches · Full Bracket Simulation
         </div>
+
+        {finishedCount > 0 && (
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: 6,
+            marginTop: 10, padding: "4px 14px",
+            background: "rgba(0,200,100,0.1)",
+            border: "1px solid rgba(0,200,100,0.3)",
+            borderRadius: 20,
+            fontSize: 11, color: "rgba(0,220,110,0.9)", letterSpacing: 1,
+          }}>
+            <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#00dc6e", display: "inline-block" }} />
+            {finishedCount} real result{finishedCount !== 1 ? 's' : ''} locked in
+            {liveData.lastUpdated && (
+              <span style={{ color: "rgba(0,200,100,0.6)", marginLeft: 4 }}>
+                · updated {new Date(liveData.lastUpdated).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </span>
+            )}
+          </div>
+        )}
 
         <div style={{ marginTop: 24, display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
           <button
@@ -719,34 +766,52 @@ export default function App() {
                     const sB = getTeamStrength(b);
                     const pA = ((sA / (sA + sB)) * 100).toFixed(0);
                     const pB = ((sB / (sA + sB)) * 100).toFixed(0);
+                    const real = (liveData.groupMatches || []).find(m =>
+                      (m.homeTeam === a && m.awayTeam === b) ||
+                      (m.homeTeam === b && m.awayTeam === a)
+                    );
+                    const isFinished = real?.status === 'FINISHED' && real.homeScore !== null;
+                    const scoreA = isFinished ? (real.homeTeam === a ? real.homeScore : real.awayScore) : null;
+                    const scoreB = isFinished ? (real.homeTeam === a ? real.awayScore : real.homeScore) : null;
                     return (
                       <div key={fi} style={{
                         padding: "12px 16px",
                         marginBottom: 8,
-                        background: "rgba(255,255,255,0.02)",
-                        border: "1px solid rgba(255,255,255,0.06)",
+                        background: isFinished ? "rgba(0,200,100,0.04)" : "rgba(255,255,255,0.02)",
+                        border: `1px solid ${isFinished ? "rgba(0,200,100,0.2)" : "rgba(255,255,255,0.06)"}`,
                         borderRadius: 4,
                       }}>
                         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
                           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                             <span style={{ fontSize: 18 }}>{tA.flag}</span>
-                            <span style={{ fontSize: 12 }}>{tA.name}</span>
+                            <span style={{ fontSize: 12, fontWeight: isFinished && scoreA > scoreB ? 700 : 400 }}>{tA.name}</span>
                           </div>
-                          <span style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", letterSpacing: 2 }}>VS</span>
+                          {isFinished ? (
+                            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                              <span style={{ fontSize: 18, fontWeight: 700, color: scoreA > scoreB ? "#FFD700" : "#E8E4D4" }}>{scoreA}</span>
+                              <span style={{ fontSize: 11, color: "rgba(0,200,100,0.7)", letterSpacing: 1 }}>FT</span>
+                              <span style={{ fontSize: 18, fontWeight: 700, color: scoreB > scoreA ? "#FFD700" : "#E8E4D4" }}>{scoreB}</span>
+                            </div>
+                          ) : (
+                            <span style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", letterSpacing: 2 }}>VS</span>
+                          )}
                           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                            <span style={{ fontSize: 12 }}>{tB.name}</span>
+                            <span style={{ fontSize: 12, fontWeight: isFinished && scoreB > scoreA ? 700 : 400 }}>{tB.name}</span>
                             <span style={{ fontSize: 18 }}>{tB.flag}</span>
                           </div>
                         </div>
-                        {/* Win probability bar */}
-                        <div style={{ display: "flex", height: 6, borderRadius: 3, overflow: "hidden" }}>
-                          <div style={{ width: `${pA}%`, background: "linear-gradient(90deg, #4fc3f7, #2196F3)", transition: "width 0.5s" }} />
-                          <div style={{ width: `${pB}%`, background: "linear-gradient(90deg, #FF7043, #F44336)", transition: "width 0.5s" }} />
-                        </div>
-                        <div style={{ display: "flex", justifyContent: "space-between", marginTop: 4, fontSize: 10, color: "rgba(255,255,255,0.4)" }}>
-                          <span>{pA}% win</span>
-                          <span>{pB}% win</span>
-                        </div>
+                        {!isFinished && (
+                          <>
+                            <div style={{ display: "flex", height: 6, borderRadius: 3, overflow: "hidden" }}>
+                              <div style={{ width: `${pA}%`, background: "linear-gradient(90deg, #4fc3f7, #2196F3)", transition: "width 0.5s" }} />
+                              <div style={{ width: `${pB}%`, background: "linear-gradient(90deg, #FF7043, #F44336)", transition: "width 0.5s" }} />
+                            </div>
+                            <div style={{ display: "flex", justifyContent: "space-between", marginTop: 4, fontSize: 10, color: "rgba(255,255,255,0.4)" }}>
+                              <span>{pA}% win</span>
+                              <span>{pB}% win</span>
+                            </div>
+                          </>
+                        )}
                       </div>
                     );
                   });
