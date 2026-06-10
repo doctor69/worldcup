@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <radialGradient id="bgBlue" cx="18%" cy="18%" r="55%" gradientUnits="userSpaceOnUse"
-      x1="0" y1="0" x2="1200" y2="630">
+    <radialGradient id="bgBlue" cx="18%" cy="18%" r="55%">
       <stop offset="0%" stop-color="#0d2a5c" stop-opacity="0.85"/>
       <stop offset="100%" stop-color="#070B14" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="bgRed" cx="82%" cy="82%" r="55%" gradientUnits="userSpaceOnUse"
-      x1="0" y1="0" x2="1200" y2="630">
+    <radialGradient id="bgRed" cx="82%" cy="82%" r="55%">
       <stop offset="0%" stop-color="#4a1010" stop-opacity="0.65"/>
       <stop offset="100%" stop-color="#070B14" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="glow" cx="50%" cy="50%" r="50%" gradientUnits="userSpaceOnUse"
-      cx="600" cy="315" r="420">
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#FFD700" stop-opacity="0.08"/>
       <stop offset="100%" stop-color="#FFD700" stop-opacity="0"/>
     </radialGradient>
