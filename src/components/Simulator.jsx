@@ -83,6 +83,110 @@ const GROUPS = {
 };
 
 // ============================================================
+// VENUES
+// ============================================================
+const VENUES = {
+  METLIFE:   { name: "MetLife Stadium",          city: "New York/NJ",     country: "🇺🇸", capacity: "82,500" },
+  ATT:       { name: "AT&T Stadium",              city: "Dallas, TX",      country: "🇺🇸", capacity: "80,000" },
+  SOFI:      { name: "SoFi Stadium",              city: "Los Angeles, CA", country: "🇺🇸", capacity: "70,240" },
+  LEVIS:     { name: "Levi's Stadium",            city: "San Francisco, CA",country: "🇺🇸", capacity: "68,500" },
+  ARROWHEAD: { name: "Arrowhead Stadium",         city: "Kansas City, MO", country: "🇺🇸", capacity: "76,416" },
+  LINCOLN:   { name: "Lincoln Financial Field",   city: "Philadelphia, PA",country: "🇺🇸", capacity: "69,176" },
+  LUMEN:     { name: "Lumen Field",               city: "Seattle, WA",     country: "🇺🇸", capacity: "69,000" },
+  HARDROCK:  { name: "Hard Rock Stadium",         city: "Miami, FL",       country: "🇺🇸", capacity: "64,767" },
+  GILLETTE:  { name: "Gillette Stadium",          city: "Boston, MA",      country: "🇺🇸", capacity: "65,878" },
+  MERCEDES:  { name: "Mercedes-Benz Stadium",     city: "Atlanta, GA",     country: "🇺🇸", capacity: "71,000" },
+  NRG:       { name: "NRG Stadium",               city: "Houston, TX",     country: "🇺🇸", capacity: "72,220" },
+  BCPLACE:   { name: "BC Place",                  city: "Vancouver, BC",   country: "🇨🇦", capacity: "54,500" },
+  BMO:       { name: "BMO Field",                 city: "Toronto, ON",     country: "🇨🇦", capacity: "45,000" },
+  AZTECA:    { name: "Estadio Azteca",            city: "Mexico City",     country: "🇲🇽", capacity: "87,523" },
+  AKRON:     { name: "Estadio Akron",             city: "Guadalajara",     country: "🇲🇽", capacity: "49,850" },
+  BBVA:      { name: "Estadio BBVA",              city: "Monterrey",       country: "🇲🇽", capacity: "53,500" },
+};
+
+// ============================================================
+// GROUP STAGE SCHEDULE — [homeTeam, awayTeam, matchday, date, venueKey]
+// ============================================================
+const MATCH_SCHEDULE = [
+  // Group A
+  ["MEX","RSA",1,"2026-06-11","AZTECA"],   ["KOR","CZE",1,"2026-06-12","METLIFE"],
+  ["MEX","CZE",2,"2026-06-18","AZTECA"],   ["RSA","KOR",2,"2026-06-17","LUMEN"],
+  ["MEX","KOR",3,"2026-06-27","AZTECA"],   ["RSA","CZE",3,"2026-06-27","METLIFE"],
+  // Group B
+  ["CAN","BIH",1,"2026-06-11","BMO"],      ["QAT","SUI",1,"2026-06-12","ATT"],
+  ["CAN","QAT",2,"2026-06-17","BMO"],      ["BIH","SUI",2,"2026-06-18","LINCOLN"],
+  ["CAN","SUI",3,"2026-06-26","BMO"],      ["BIH","QAT",3,"2026-06-26","ATT"],
+  // Group C
+  ["BRA","HAI",1,"2026-06-13","METLIFE"],  ["MAR","SCO",1,"2026-06-13","SOFI"],
+  ["BRA","SCO",2,"2026-06-19","METLIFE"],  ["MAR","HAI",2,"2026-06-19","SOFI"],
+  ["BRA","MAR",3,"2026-06-27","METLIFE"],  ["HAI","SCO",3,"2026-06-27","SOFI"],
+  // Group D
+  ["USA","PAR",1,"2026-06-14","METLIFE"],  ["AUS","TUR",1,"2026-06-14","SOFI"],
+  ["USA","AUS",2,"2026-06-20","ATT"],      ["PAR","TUR",2,"2026-06-20","NRG"],
+  ["USA","TUR",3,"2026-06-28","METLIFE"],  ["PAR","AUS",3,"2026-06-28","NRG"],
+  // Group E
+  ["GER","CUW",1,"2026-06-14","ATT"],      ["CIV","ECU",1,"2026-06-15","GILLETTE"],
+  ["GER","ECU",2,"2026-06-20","ATT"],      ["CUW","CIV",2,"2026-06-21","MERCEDES"],
+  ["GER","CIV",3,"2026-06-28","ATT"],      ["CUW","ECU",3,"2026-06-28","GILLETTE"],
+  // Group F
+  ["NED","TUN",1,"2026-06-15","LEVIS"],    ["JPN","SWE",1,"2026-06-16","BCPLACE"],
+  ["NED","JPN",2,"2026-06-21","LEVIS"],    ["TUN","SWE",2,"2026-06-22","BCPLACE"],
+  ["NED","SWE",3,"2026-06-29","LEVIS"],    ["TUN","JPN",3,"2026-06-29","BCPLACE"],
+  // Group G
+  ["BEL","NZL",1,"2026-06-16","ARROWHEAD"],["EGY","IRN",1,"2026-06-17","LINCOLN"],
+  ["BEL","EGY",2,"2026-06-22","ARROWHEAD"],["IRN","NZL",2,"2026-06-22","GILLETTE"],
+  ["BEL","IRN",3,"2026-06-29","ARROWHEAD"],["EGY","NZL",3,"2026-06-29","GILLETTE"],
+  // Group H
+  ["ESP","CPV",1,"2026-06-13","METLIFE"],  ["KSA","URU",1,"2026-06-14","NRG"],
+  ["ESP","KSA",2,"2026-06-19","METLIFE"],  ["CPV","URU",2,"2026-06-19","NRG"],
+  ["ESP","URU",3,"2026-06-29","METLIFE"],  ["CPV","KSA",3,"2026-06-29","ATT"],
+  // Group I
+  ["FRA","IRQ",1,"2026-06-15","SOFI"],     ["SEN","NOR",1,"2026-06-15","HARDROCK"],
+  ["FRA","NOR",2,"2026-06-21","SOFI"],     ["IRQ","SEN",2,"2026-06-21","HARDROCK"],
+  ["FRA","SEN",3,"2026-06-30","SOFI"],     ["IRQ","NOR",3,"2026-06-30","HARDROCK"],
+  // Group J
+  ["ARG","JOR",1,"2026-06-16","METLIFE"],  ["ALG","AUT",1,"2026-06-16","LEVIS"],
+  ["ARG","ALG",2,"2026-06-22","METLIFE"],  ["JOR","AUT",2,"2026-06-22","LINCOLN"],
+  ["ARG","AUT",3,"2026-06-30","METLIFE"],  ["ALG","JOR",3,"2026-06-30","LEVIS"],
+  // Group K
+  ["POR","UZB",1,"2026-06-17","MERCEDES"], ["COD","COL",1,"2026-06-17","ARROWHEAD"],
+  ["POR","COD",2,"2026-06-23","MERCEDES"], ["UZB","COL",2,"2026-06-23","ARROWHEAD"],
+  ["POR","COL",3,"2026-07-01","MERCEDES"], ["UZB","COD",3,"2026-07-01","ARROWHEAD"],
+  // Group L
+  ["ENG","PAN",1,"2026-06-12","SOFI"],     ["CRO","GHA",1,"2026-06-13","AKRON"],
+  ["ENG","GHA",2,"2026-06-18","SOFI"],     ["PAN","CRO",2,"2026-06-18","AKRON"],
+  ["ENG","CRO",3,"2026-07-02","SOFI"],     ["PAN","GHA",3,"2026-07-02","AKRON"],
+];
+
+// ============================================================
+// HISTORICAL WORLD CUP WINNERS
+// ============================================================
+const WC_HISTORY = [
+  { year: 2022, host: "Qatar",         hostFlag: "🇶🇦", champion: "ARG", champFlag: "🇦🇷", runnerUp: "FRA", ruFlag: "🇫🇷", third: "CRO" },
+  { year: 2018, host: "Russia",        hostFlag: "🇷🇺", champion: "FRA", champFlag: "🇫🇷", runnerUp: "CRO", ruFlag: "🇭🇷", third: "BEL" },
+  { year: 2014, host: "Brazil",        hostFlag: "🇧🇷", champion: "GER", champFlag: "🇩🇪", runnerUp: "ARG", ruFlag: "🇦🇷", third: "NED" },
+  { year: 2010, host: "South Africa",  hostFlag: "🇿🇦", champion: "ESP", champFlag: "🇪🇸", runnerUp: "NED", ruFlag: "🇳🇱", third: "GER" },
+  { year: 2006, host: "Germany",       hostFlag: "🇩🇪", champion: "ITA", champFlag: "🇮🇹", runnerUp: "FRA", ruFlag: "🇫🇷", third: "GER" },
+  { year: 2002, host: "Korea/Japan",   hostFlag: "🇰🇷", champion: "BRA", champFlag: "🇧🇷", runnerUp: "GER", ruFlag: "🇩🇪", third: "TUR" },
+  { year: 1998, host: "France",        hostFlag: "🇫🇷", champion: "FRA", champFlag: "🇫🇷", runnerUp: "BRA", ruFlag: "🇧🇷", third: "CRO" },
+  { year: 1994, host: "USA",           hostFlag: "🇺🇸", champion: "BRA", champFlag: "🇧🇷", runnerUp: "ITA", ruFlag: "🇮🇹", third: "SWE" },
+  { year: 1990, host: "Italy",         hostFlag: "🇮🇹", champion: "GER", champFlag: "🇩🇪", runnerUp: "ARG", ruFlag: "🇦🇷", third: "ITA" },
+  { year: 1986, host: "Mexico",        hostFlag: "🇲🇽", champion: "ARG", champFlag: "🇦🇷", runnerUp: "GER", ruFlag: "🇩🇪", third: "FRA" },
+  { year: 1982, host: "Spain",         hostFlag: "🇪🇸", champion: "ITA", champFlag: "🇮🇹", runnerUp: "GER", ruFlag: "🇩🇪", third: "POL" },
+  { year: 1978, host: "Argentina",     hostFlag: "🇦🇷", champion: "ARG", champFlag: "🇦🇷", runnerUp: "NED", ruFlag: "🇳🇱", third: "BRA" },
+  { year: 1974, host: "Germany",       hostFlag: "🇩🇪", champion: "GER", champFlag: "🇩🇪", runnerUp: "NED", ruFlag: "🇳🇱", third: "POL" },
+  { year: 1970, host: "Mexico",        hostFlag: "🇲🇽", champion: "BRA", champFlag: "🇧🇷", runnerUp: "ITA", ruFlag: "🇮🇹", third: "GER" },
+  { year: 1966, host: "England",       hostFlag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", champion: "ENG", champFlag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", runnerUp: "GER", ruFlag: "🇩🇪", third: "POR" },
+  { year: 1962, host: "Chile",         hostFlag: "🇨🇱", champion: "BRA", champFlag: "🇧🇷", runnerUp: "CZE", ruFlag: "🇨🇿", third: "CHI" },
+  { year: 1958, host: "Sweden",        hostFlag: "🇸🇪", champion: "BRA", champFlag: "🇧🇷", runnerUp: "SWE", ruFlag: "🇸🇪", third: "FRA" },
+  { year: 1954, host: "Switzerland",   hostFlag: "🇨🇭", champion: "GER", champFlag: "🇩🇪", runnerUp: "HUN", ruFlag: "🇭🇺", third: "AUT" },
+  { year: 1950, host: "Brazil",        hostFlag: "🇧🇷", champion: "URU", champFlag: "🇺🇾", runnerUp: "BRA", ruFlag: "🇧🇷", third: "SWE" },
+  { year: 1938, host: "France",        hostFlag: "🇫🇷", champion: "ITA", champFlag: "🇮🇹", runnerUp: "HUN", ruFlag: "🇭🇺", third: "BRA" },
+  { year: 1934, host: "Italy",         hostFlag: "🇮🇹", champion: "ITA", champFlag: "🇮🇹", runnerUp: "CZE", ruFlag: "🇨🇿", third: "GER" },
+  { year: 1930, host: "Uruguay",       hostFlag: "🇺🇾", champion: "URU", champFlag: "🇺🇾", runnerUp: "ARG", ruFlag: "🇦🇷", third: "USA" },
+];
+
+// ============================================================
 // SIMULATION ENGINE
 // ============================================================
 function getTeamStrength(code) {
@@ -321,6 +425,80 @@ function runMonteCarloSimulation(iterations = 1000, liveGroupMatches = []) {
 }
 
 // ============================================================
+// BRACKET PREVIEW: one tournament run capturing full matchup pairs
+// ============================================================
+function runBracketPreview(liveGroupMatches = []) {
+  const makePairs = (teams) => {
+    const pairs = [], winners = [];
+    for (let i = 0; i < teams.length; i += 2) {
+      if (teams[i] && teams[i + 1]) {
+        const r = simulateMatch(teams[i], teams[i + 1], true);
+        pairs.push({ t1: teams[i], t2: teams[i + 1], winner: r.winner });
+        winners.push(r.winner);
+      } else if (teams[i]) {
+        pairs.push({ t1: teams[i], t2: null, winner: teams[i] });
+        winners.push(teams[i]);
+      }
+    }
+    return { pairs, winners };
+  };
+
+  const base = runFullTournament(liveGroupMatches);
+
+  // Re-run rounds to capture pairs (runFullTournament already used random results;
+  // we re-simulate once more purely for display — probabilities are consistent)
+  const r32Input = (() => {
+    const gr = base.groupResults;
+    const adv = Object.entries(GROUPS).flatMap(([g]) => [gr[g].winner, gr[g].runnerUp]);
+    const thirds = Object.entries(GROUPS)
+      .map(([g]) => ({ code: gr[g].third, pts: gr[g].standings[gr[g].third].pts, gd: gr[g].standings[gr[g].third].gd }))
+      .sort((a, b) => b.pts - a.pts || b.gd - a.gd)
+      .slice(0, 8).map(t => t.code);
+
+    const r32 = [
+      gr["A"].winner,  thirds[0] || gr["B"].runnerUp,
+      gr["C"].winner,  gr["D"].runnerUp,
+      gr["E"].winner,  gr["F"].runnerUp,
+      gr["G"].winner,  gr["H"].runnerUp,
+      gr["I"].winner,  gr["J"].runnerUp,
+      gr["K"].winner,  gr["L"].runnerUp,
+      gr["B"].winner,  thirds[1] || gr["A"].runnerUp,
+      gr["D"].winner,  gr["C"].runnerUp,
+      gr["F"].winner,  gr["E"].runnerUp,
+      gr["H"].winner,  gr["G"].runnerUp,
+      gr["J"].winner,  gr["I"].runnerUp,
+      gr["L"].winner,  gr["K"].runnerUp,
+      thirds[2] || gr["C"].runnerUp, thirds[3] || gr["D"].runnerUp,
+      thirds[4] || gr["E"].runnerUp, thirds[5] || gr["F"].runnerUp,
+      thirds[6] || gr["G"].runnerUp, thirds[7] || gr["H"].runnerUp,
+      gr["A"].runnerUp, gr["B"].winner,
+      gr["C"].winner,  gr["D"].winner,
+    ].filter(Boolean);
+    const seen = new Set();
+    const unique = [];
+    r32.forEach(t => { if (t && !seen.has(t)) { seen.add(t); unique.push(t); } });
+    while (unique.length < 32) {
+      const extra = [...adv, ...thirds].find(t => !seen.has(t));
+      if (extra) { seen.add(extra); unique.push(extra); } else break;
+    }
+    return unique.slice(0, 32);
+  })();
+
+  const { pairs: r32Pairs, winners: r16Input } = makePairs(r32Input);
+  const { pairs: r16Pairs, winners: qfInput } = makePairs(r16Input);
+  const { pairs: qfPairs, winners: sfInput } = makePairs(qfInput);
+  const { pairs: sfPairs, winners: finalists } = makePairs(sfInput);
+  const finalResult = finalists.length === 2 ? simulateMatch(finalists[0], finalists[1], true) : null;
+
+  return {
+    groupResults: base.groupResults,
+    r32Pairs, r16Pairs, qfPairs, sfPairs,
+    finalPair: finalists.length === 2 ? { t1: finalists[0], t2: finalists[1], winner: finalResult?.winner } : null,
+    champion: finalResult?.winner || finalists[0] || null,
+  };
+}
+
+// ============================================================
 // UI COMPONENTS
 // ============================================================
 const WinBar = ({ pct, max, color }) => (
@@ -355,6 +533,9 @@ export default function App() {
   const [selectedGroup, setSelectedGroup] = useState("A");
   const [sortBy, setSortBy] = useState("win");
   const [liveData, setLiveData] = useState({ groupMatches: [], knockoutMatches: [], lastUpdated: null });
+  const [bracketPreview, setBracketPreview] = useState(null);
+  const [scheduleGroup, setScheduleGroup] = useState("all");
+  const [scheduleMatchday, setScheduleMatchday] = useState("all");
   const workerRef = useRef(null);
 
   useEffect(() => {
@@ -380,10 +561,12 @@ export default function App() {
 
     setTimeout(() => {
       const results = runMonteCarloSimulation(1000, liveData.groupMatches || []);
+      const bracket = runBracketPreview(liveData.groupMatches || []);
       clearInterval(interval);
       setProgress(100);
       setTimeout(() => {
         setSimResults(results);
+        setBracketPreview(bracket);
         setRunning(false);
         setProgress(0);
       }, 400);
@@ -522,7 +705,7 @@ export default function App() {
         background: "rgba(0,0,0,0.2)",
         overflowX: "auto",
       }}>
-        {["overview", "groups", "rankings", "methodology"].map(tab => (
+        {["overview", "schedule", "bracket", "groups", "rankings", "methodology"].map(tab => (
           <button key={tab} onClick={() => setActiveTab(tab)} style={{
             background: "none",
             border: "none",
@@ -667,6 +850,207 @@ export default function App() {
             )}
           </div>
         )}
+
+        {/* SCHEDULE TAB */}
+        {activeTab === "schedule" && (() => {
+          const filtered = MATCH_SCHEDULE.filter(([h, a, md, date, venue]) => {
+            const grp = Object.entries(GROUPS).find(([g, ts]) => ts.includes(h) && ts.includes(a))?.[0];
+            if (scheduleGroup !== "all" && grp !== scheduleGroup) return false;
+            if (scheduleMatchday !== "all" && String(md) !== scheduleMatchday) return false;
+            return true;
+          });
+          const getGroupFor = (h, a) => Object.entries(GROUPS).find(([, ts]) => ts.includes(h) && ts.includes(a))?.[0];
+          const getRealScore = (h, a) => (liveData.groupMatches || []).find(m =>
+            (m.homeTeam === h && m.awayTeam === a) || (m.homeTeam === a && m.awayTeam === h)
+          );
+          const today = new Date().toISOString().slice(0, 10);
+          return (
+            <div>
+              <div style={{ fontSize: 11, letterSpacing: 4, color: "rgba(255,215,0,0.5)", marginBottom: 16, textTransform: "uppercase" }}>
+                2026 FIFA World Cup — Group Stage Schedule
+              </div>
+              {/* Filters */}
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 20 }}>
+                <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                  {["all","1","2","3"].map(md => (
+                    <button key={md} onClick={() => setScheduleMatchday(md)} style={{
+                      padding: "4px 12px", fontFamily: "inherit", fontSize: 11, cursor: "pointer",
+                      background: scheduleMatchday === md ? "rgba(255,215,0,0.15)" : "rgba(255,255,255,0.04)",
+                      border: `1px solid ${scheduleMatchday === md ? "rgba(255,215,0,0.4)" : "rgba(255,255,255,0.1)"}`,
+                      borderRadius: 2, color: scheduleMatchday === md ? "#FFD700" : "rgba(232,228,212,0.5)", letterSpacing: 1,
+                    }}>{md === "all" ? "All MD" : `MD ${md}`}</button>
+                  ))}
+                </div>
+                <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                  {["all", ...Object.keys(GROUPS)].map(g => (
+                    <button key={g} onClick={() => setScheduleGroup(g)} style={{
+                      padding: "4px 10px", fontFamily: "inherit", fontSize: 11, cursor: "pointer",
+                      background: scheduleGroup === g ? "rgba(255,215,0,0.15)" : "rgba(255,255,255,0.04)",
+                      border: `1px solid ${scheduleGroup === g ? "rgba(255,215,0,0.4)" : "rgba(255,255,255,0.1)"}`,
+                      borderRadius: 2, color: scheduleGroup === g ? "#FFD700" : "rgba(232,228,212,0.5)", letterSpacing: 1,
+                    }}>{g === "all" ? "All Groups" : `Grp ${g}`}</button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Match cards */}
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 10 }}>
+                {filtered.map(([homeCode, awayCode, md, date, venueKey], i) => {
+                  const home = TEAMS_DATA[homeCode], away = TEAMS_DATA[awayCode];
+                  const venue = VENUES[venueKey];
+                  const grp = getGroupFor(homeCode, awayCode);
+                  const real = getRealScore(homeCode, awayCode);
+                  const isFinished = real?.status === 'FINISHED' && real.homeScore !== null;
+                  const isPast = date < today;
+                  const isToday = date === today;
+                  const homeIsReal = real?.homeTeam === homeCode;
+                  const scoreH = isFinished ? (homeIsReal ? real.homeScore : real.awayScore) : null;
+                  const scoreA = isFinished ? (homeIsReal ? real.awayScore : real.homeScore) : null;
+                  const d = new Date(date + "T12:00:00");
+                  const dateStr = d.toLocaleDateString("en-US", { month: "short", day: "numeric", weekday: "short" });
+                  return (
+                    <div key={i} style={{
+                      padding: "14px 16px",
+                      background: isFinished ? "rgba(0,200,100,0.04)" : isToday ? "rgba(255,215,0,0.04)" : "rgba(255,255,255,0.025)",
+                      border: `1px solid ${isFinished ? "rgba(0,200,100,0.2)" : isToday ? "rgba(255,215,0,0.25)" : "rgba(255,255,255,0.07)"}`,
+                      borderRadius: 4,
+                    }}>
+                      {/* Header */}
+                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10, fontSize: 10, color: "rgba(255,255,255,0.35)", letterSpacing: 1 }}>
+                        <span style={{ color: "rgba(255,215,0,0.55)" }}>GROUP {grp} · MD{md}</span>
+                        <span>{isFinished ? <span style={{ color: "rgba(0,220,100,0.8)" }}>FT</span> : isToday ? <span style={{ color: "#FFD700" }}>TODAY</span> : dateStr}</span>
+                      </div>
+                      {/* Teams + Score */}
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+                        <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 8 }}>
+                          <span style={{ fontSize: 22 }}>{home.flag}</span>
+                          <span style={{ fontSize: 13, fontWeight: isFinished && scoreH > scoreA ? 700 : 400 }}>{home.name}</span>
+                        </div>
+                        <div style={{ textAlign: "center", minWidth: 60 }}>
+                          {isFinished ? (
+                            <span style={{ fontSize: 22, fontWeight: 700, color: "#E8E4D4", letterSpacing: 2 }}>
+                              {scoreH} – {scoreA}
+                            </span>
+                          ) : (
+                            <span style={{ fontSize: 11, color: "rgba(255,255,255,0.2)", letterSpacing: 2 }}>vs</span>
+                          )}
+                        </div>
+                        <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 8, justifyContent: "flex-end" }}>
+                          <span style={{ fontSize: 13, fontWeight: isFinished && scoreA > scoreH ? 700 : 400 }}>{away.name}</span>
+                          <span style={{ fontSize: 22 }}>{away.flag}</span>
+                        </div>
+                      </div>
+                      {/* Venue */}
+                      <div style={{ marginTop: 10, fontSize: 10, color: "rgba(255,255,255,0.28)", display: "flex", justifyContent: "space-between" }}>
+                        <span>{venue?.country} {venue?.name}, {venue?.city}</span>
+                        <span>{venue?.capacity} cap.</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })()}
+
+        {/* BRACKET TAB */}
+        {activeTab === "bracket" && (() => {
+          const t = (code) => TEAMS_DATA[code] || { name: code, flag: "🏳️" };
+          const MatchBox = ({ pair, highlight }) => {
+            if (!pair) return <div style={{ height: 60, background: "rgba(255,255,255,0.02)", borderRadius: 3, border: "1px solid rgba(255,255,255,0.05)" }} />;
+            const { t1, t2, winner } = pair;
+            const tm1 = t(t1), tm2 = t2 ? t(t2) : null;
+            return (
+              <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 3, overflow: "hidden", fontSize: 11 }}>
+                {[{ code: t1, tm: tm1 }, { code: t2, tm: tm2 }].map(({ code, tm }, i) => (
+                  <div key={i} style={{
+                    display: "flex", alignItems: "center", gap: 6, padding: "5px 8px",
+                    background: code && code === winner ? "rgba(255,215,0,0.08)" : "transparent",
+                    borderBottom: i === 0 ? "1px solid rgba(255,255,255,0.05)" : "none",
+                  }}>
+                    <span style={{ fontSize: 14 }}>{tm?.flag || "🏳️"}</span>
+                    <span style={{ flex: 1, color: code && code === winner ? "#FFD700" : tm ? "#E8E4D4" : "rgba(255,255,255,0.2)", fontWeight: code === winner ? 700 : 400 }}>
+                      {tm ? tm.name : "TBD"}
+                    </span>
+                    {code === winner && <span style={{ fontSize: 10, color: "#FFD700" }}>✓</span>}
+                  </div>
+                ))}
+              </div>
+            );
+          };
+
+          const RoundSection = ({ title, pairs, cols = 2 }) => (
+            <div style={{ marginBottom: 24 }}>
+              <div style={{ fontSize: 10, letterSpacing: 4, color: "rgba(255,215,0,0.5)", marginBottom: 10, textTransform: "uppercase" }}>{title}</div>
+              <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 6 }}>
+                {(pairs || []).map((pair, i) => <MatchBox key={i} pair={pair} />)}
+              </div>
+            </div>
+          );
+
+          return (
+            <div>
+              {!bracketPreview && (
+                <div style={{ textAlign: "center", padding: "60px 24px", color: "rgba(232,228,212,0.4)" }}>
+                  <div style={{ fontSize: 32, marginBottom: 12 }}>🏆</div>
+                  <div>Run the simulation to generate a predicted bracket</div>
+                </div>
+              )}
+
+              {bracketPreview && (
+                <div>
+                  {/* Champion */}
+                  <div style={{ textAlign: "center", marginBottom: 28 }}>
+                    <div style={{ fontSize: 10, letterSpacing: 5, color: "rgba(255,215,0,0.5)", textTransform: "uppercase", marginBottom: 8 }}>Predicted Champion</div>
+                    {(() => {
+                      const champ = t(bracketPreview.champion);
+                      return (
+                        <div style={{ display: "inline-flex", alignItems: "center", gap: 12, padding: "12px 28px", background: "linear-gradient(135deg, rgba(255,215,0,0.12), rgba(255,215,0,0.04))", border: "1px solid rgba(255,215,0,0.3)", borderRadius: 4 }}>
+                          <span style={{ fontSize: 36 }}>{champ.flag}</span>
+                          <div>
+                            <div style={{ fontSize: 22, fontWeight: 700, color: "#FFD700" }}>{champ.name}</div>
+                            {simResults && <div style={{ fontSize: 12, color: "rgba(255,215,0,0.6)" }}>{simResults.find(r => r.code === bracketPreview.champion)?.winPct}% win probability</div>}
+                          </div>
+                          <span style={{ fontSize: 28 }}>🏆</span>
+                        </div>
+                      );
+                    })()}
+                  </div>
+
+                  {bracketPreview.finalPair && <RoundSection title="Final — MetLife Stadium, New York · Jul 19, 2026" pairs={[bracketPreview.finalPair]} cols={1} />}
+                  {bracketPreview.sfPairs?.length > 0 && <RoundSection title="Semi-Finals · Jul 14–15, 2026" pairs={bracketPreview.sfPairs} cols={2} />}
+                  {bracketPreview.qfPairs?.length > 0 && <RoundSection title="Quarter-Finals · Jul 11–12, 2026" pairs={bracketPreview.qfPairs} cols={2} />}
+                  {bracketPreview.r16Pairs?.length > 0 && <RoundSection title="Round of 16 · Jul 6–9, 2026" pairs={bracketPreview.r16Pairs} cols={2} />}
+                  {bracketPreview.r32Pairs?.length > 0 && <RoundSection title="Round of 32 · Jul 1–4, 2026" pairs={bracketPreview.r32Pairs} cols={2} />}
+                </div>
+              )}
+
+              {/* Historical Champions */}
+              <div style={{ marginTop: 40, borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 28 }}>
+                <div style={{ fontSize: 11, letterSpacing: 4, color: "rgba(255,215,0,0.5)", marginBottom: 16, textTransform: "uppercase" }}>Historical World Cup Champions</div>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 8 }}>
+                  {WC_HISTORY.map((wc) => (
+                    <div key={wc.year} style={{ padding: "10px 12px", background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 3, display: "flex", alignItems: "center", gap: 10 }}>
+                      <span style={{ fontSize: 20 }}>{wc.hostFlag}</span>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <span style={{ fontSize: 11, color: "rgba(255,215,0,0.6)", fontWeight: 700 }}>{wc.year}</span>
+                          <span style={{ fontSize: 10, color: "rgba(255,255,255,0.25)" }}>{wc.host}</span>
+                        </div>
+                        <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 3 }}>
+                          <span style={{ fontSize: 16 }}>{wc.champFlag}</span>
+                          <span style={{ fontSize: 12, fontWeight: 700, color: "#E8E4D4" }}>{wc.champion}</span>
+                          <span style={{ fontSize: 10, color: "rgba(255,255,255,0.3)" }}>def. {wc.runnerUp} {wc.ruFlag}</span>
+                        </div>
+                        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.25)", marginTop: 2 }}>3rd: {wc.third}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          );
+        })()}
 
         {/* GROUPS TAB */}
         {activeTab === "groups" && (
