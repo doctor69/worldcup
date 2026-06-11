@@ -903,6 +903,16 @@ export default function App() {
             if (scheduleGroup !== "all" && grp !== scheduleGroup) return false;
             if (scheduleMatchday !== "all" && String(md) !== scheduleMatchday) return false;
             return true;
+          }).sort(([, , , dateA, , timeA], [, , , dateB, , timeB]) => {
+            if (dateA !== dateB) return dateA.localeCompare(dateB);
+            const toMinutes = t => {
+              const [time, period] = t.split(" ");
+              let [h, m] = time.split(":").map(Number);
+              if (period === "AM" && h === 12) return 24 * 60; // midnight = end of day
+              if (period === "PM" && h !== 12) h += 12;
+              return h * 60 + m;
+            };
+            return toMinutes(timeA) - toMinutes(timeB);
           });
           const getGroupFor = (h, a) => Object.entries(GROUPS).find(([, ts]) => ts.includes(h) && ts.includes(a))?.[0];
           const getRealScore = (h, a) => (liveData.groupMatches || []).find(m =>
@@ -938,70 +948,95 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Match cards */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 10 }}>
-                {filtered.map(([homeCode, awayCode, md, date, venueKey, timeET], i) => {
-                  const home = TEAMS_DATA[homeCode], away = TEAMS_DATA[awayCode];
-                  const venue = VENUES[venueKey];
-                  const grp = getGroupFor(homeCode, awayCode);
-                  const real = getRealScore(homeCode, awayCode);
-                  const isFinished = real?.status === 'FINISHED' && real.homeScore !== null;
-                  const isPast = date < today;
-                  const isToday = date === today;
-                  const homeIsReal = real?.homeTeam === homeCode;
-                  const scoreH = isFinished ? (homeIsReal ? real.homeScore : real.awayScore) : null;
-                  const scoreA = isFinished ? (homeIsReal ? real.awayScore : real.homeScore) : null;
+              {/* Match cards grouped by date */}
+              {(() => {
+                const byDate = filtered.reduce((acc, m) => {
+                  const d = m[3];
+                  (acc[d] = acc[d] || []).push(m);
+                  return acc;
+                }, {});
+                return Object.entries(byDate).map(([date, dayMatches]) => {
                   const d = new Date(date + "T12:00:00");
-                  const dateStr = d.toLocaleDateString("en-US", { month: "short", day: "numeric", weekday: "short" });
-                  const timeStr = `${timeET} ET`;
+                  const fullDate = d.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+                  const isToday = date === today;
+                  const isPast = date < today;
                   return (
-                    <div key={i} style={{
-                      padding: "14px 16px",
-                      background: isFinished ? "rgba(0,200,100,0.04)" : isToday ? "rgba(255,215,0,0.04)" : "rgba(255,255,255,0.025)",
-                      border: `1px solid ${isFinished ? "rgba(0,200,100,0.2)" : isToday ? "rgba(255,215,0,0.25)" : "rgba(255,255,255,0.07)"}`,
-                      borderRadius: 4,
-                    }}>
-                      {/* Header */}
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10, fontSize: 10, color: "rgba(255,255,255,0.35)", letterSpacing: 1 }}>
-                        <span style={{ color: "rgba(255,215,0,0.55)" }}>GROUP {grp} · MD{md}</span>
-                        <span style={{ textAlign: "right" }}>
-                          {isFinished
-                            ? <span style={{ color: "rgba(0,220,100,0.8)", fontWeight: 700 }}>FT</span>
-                            : isToday
-                              ? <><span style={{ color: "#FFD700", fontWeight: 700 }}>TODAY</span><span style={{ marginLeft: 5, color: "#FFD700", opacity: 0.7 }}>{timeStr}</span></>
-                              : <>{dateStr}<span style={{ marginLeft: 5, color: "rgba(255,215,0,0.45)" }}>{timeStr}</span></>
-                          }
-                        </span>
-                      </div>
-                      {/* Teams + Score */}
-                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-                        <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 8 }}>
-                          <span style={{ fontSize: 22 }}>{home.flag}</span>
-                          <span style={{ fontSize: 13, fontWeight: isFinished && scoreH > scoreA ? 700 : 400 }}>{home.name}</span>
+                    <div key={date} style={{ marginBottom: 24 }}>
+                      {/* Date header */}
+                      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+                        <div style={{
+                          fontSize: 11, fontWeight: 700, letterSpacing: 3,
+                          color: isToday ? "#FFD700" : isPast ? "rgba(255,255,255,0.3)" : "rgba(232,228,212,0.7)",
+                          textTransform: "uppercase",
+                        }}>
+                          {isToday ? "▶ Today — " : ""}{fullDate}
                         </div>
-                        <div style={{ textAlign: "center", minWidth: 60 }}>
-                          {isFinished ? (
-                            <span style={{ fontSize: 22, fontWeight: 700, color: "#E8E4D4", letterSpacing: 2 }}>
-                              {scoreH} – {scoreA}
-                            </span>
-                          ) : (
-                            <span style={{ fontSize: 11, color: "rgba(255,255,255,0.2)", letterSpacing: 2 }}>vs</span>
-                          )}
-                        </div>
-                        <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 8, justifyContent: "flex-end" }}>
-                          <span style={{ fontSize: 13, fontWeight: isFinished && scoreA > scoreH ? 700 : 400 }}>{away.name}</span>
-                          <span style={{ fontSize: 22 }}>{away.flag}</span>
+                        <div style={{ flex: 1, height: 1, background: isToday ? "rgba(255,215,0,0.25)" : "rgba(255,255,255,0.07)" }} />
+                        <div style={{ fontSize: 10, color: "rgba(255,255,255,0.25)", letterSpacing: 1 }}>
+                          {dayMatches.length} {dayMatches.length === 1 ? "match" : "matches"}
                         </div>
                       </div>
-                      {/* Venue */}
-                      <div style={{ marginTop: 10, fontSize: 10, color: "rgba(255,255,255,0.28)", display: "flex", justifyContent: "space-between" }}>
-                        <span>{venue?.country} {venue?.name}, {venue?.city}</span>
-                        <span>{venue?.capacity} cap.</span>
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 10 }}>
+                        {dayMatches.map(([homeCode, awayCode, md, , venueKey, timeET], i) => {
+                          const home = TEAMS_DATA[homeCode], away = TEAMS_DATA[awayCode];
+                          const venue = VENUES[venueKey];
+                          const grp = getGroupFor(homeCode, awayCode);
+                          const real = getRealScore(homeCode, awayCode);
+                          const isFinished = real?.status === 'FINISHED' && real.homeScore !== null;
+                          const homeIsReal = real?.homeTeam === homeCode;
+                          const scoreH = isFinished ? (homeIsReal ? real.homeScore : real.awayScore) : null;
+                          const scoreA = isFinished ? (homeIsReal ? real.awayScore : real.homeScore) : null;
+                          const timeStr = `${timeET} ET`;
+                          return (
+                            <div key={i} style={{
+                              padding: "14px 16px",
+                              background: isFinished ? "rgba(0,200,100,0.04)" : isToday ? "rgba(255,215,0,0.04)" : "rgba(255,255,255,0.025)",
+                              border: `1px solid ${isFinished ? "rgba(0,200,100,0.2)" : isToday ? "rgba(255,215,0,0.25)" : "rgba(255,255,255,0.07)"}`,
+                              borderRadius: 4,
+                            }}>
+                              {/* Header */}
+                              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10, fontSize: 10, color: "rgba(255,255,255,0.35)", letterSpacing: 1 }}>
+                                <span style={{ color: "rgba(255,215,0,0.55)" }}>GROUP {grp} · MD{md}</span>
+                                <span>
+                                  {isFinished
+                                    ? <span style={{ color: "rgba(0,220,100,0.8)", fontWeight: 700 }}>FT</span>
+                                    : <span style={{ color: isToday ? "#FFD700" : "rgba(255,215,0,0.45)" }}>{timeStr}</span>
+                                  }
+                                </span>
+                              </div>
+                              {/* Teams + Score */}
+                              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+                                <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 8 }}>
+                                  <span style={{ fontSize: 22 }}>{home.flag}</span>
+                                  <span style={{ fontSize: 13, fontWeight: isFinished && scoreH > scoreA ? 700 : 400 }}>{home.name}</span>
+                                </div>
+                                <div style={{ textAlign: "center", minWidth: 60 }}>
+                                  {isFinished ? (
+                                    <span style={{ fontSize: 22, fontWeight: 700, color: "#E8E4D4", letterSpacing: 2 }}>
+                                      {scoreH} – {scoreA}
+                                    </span>
+                                  ) : (
+                                    <span style={{ fontSize: 11, color: "rgba(255,255,255,0.2)", letterSpacing: 2 }}>vs</span>
+                                  )}
+                                </div>
+                                <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 8, justifyContent: "flex-end" }}>
+                                  <span style={{ fontSize: 13, fontWeight: isFinished && scoreA > scoreH ? 700 : 400 }}>{away.name}</span>
+                                  <span style={{ fontSize: 22 }}>{away.flag}</span>
+                                </div>
+                              </div>
+                              {/* Venue */}
+                              <div style={{ marginTop: 10, fontSize: 10, color: "rgba(255,255,255,0.28)", display: "flex", justifyContent: "space-between" }}>
+                                <span>{venue?.country} {venue?.name}, {venue?.city}</span>
+                                <span>{venue?.capacity} cap.</span>
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   );
-                })}
-              </div>
+                });
+              })()}
             </div>
           );
         })()}
