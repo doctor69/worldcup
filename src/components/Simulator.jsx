@@ -105,57 +105,58 @@ const VENUES = {
 };
 
 // ============================================================
-// GROUP STAGE SCHEDULE — [homeTeam, awayTeam, matchday, date, venueKey]
+// GROUP STAGE SCHEDULE — [homeTeam, awayTeam, matchday, date, venueKey, timeET]
+// MD3 pairs kick off simultaneously (same time) per FIFA rules
 // ============================================================
 const MATCH_SCHEDULE = [
   // Group A
-  ["MEX","RSA",1,"2026-06-11","AZTECA"],   ["KOR","CZE",1,"2026-06-12","METLIFE"],
-  ["MEX","CZE",2,"2026-06-18","AZTECA"],   ["RSA","KOR",2,"2026-06-17","LUMEN"],
-  ["MEX","KOR",3,"2026-06-27","AZTECA"],   ["RSA","CZE",3,"2026-06-27","METLIFE"],
+  ["MEX","RSA",1,"2026-06-11","AZTECA",  "8:00 PM"], ["KOR","CZE",1,"2026-06-12","METLIFE", "3:00 PM"],
+  ["MEX","CZE",2,"2026-06-18","AZTECA",  "6:00 PM"], ["RSA","KOR",2,"2026-06-17","LUMEN",   "9:00 PM"],
+  ["MEX","KOR",3,"2026-06-27","AZTECA",  "3:00 PM"], ["RSA","CZE",3,"2026-06-27","METLIFE", "3:00 PM"],
   // Group B
-  ["CAN","BIH",1,"2026-06-11","BMO"],      ["QAT","SUI",1,"2026-06-12","ATT"],
-  ["CAN","QAT",2,"2026-06-17","BMO"],      ["BIH","SUI",2,"2026-06-18","LINCOLN"],
-  ["CAN","SUI",3,"2026-06-26","BMO"],      ["BIH","QAT",3,"2026-06-26","ATT"],
+  ["CAN","BIH",1,"2026-06-11","BMO",     "3:00 PM"], ["QAT","SUI",1,"2026-06-12","ATT",     "12:00 PM"],
+  ["CAN","QAT",2,"2026-06-17","BMO",     "6:00 PM"], ["BIH","SUI",2,"2026-06-18","LINCOLN", "3:00 PM"],
+  ["CAN","SUI",3,"2026-06-26","BMO",     "6:00 PM"], ["BIH","QAT",3,"2026-06-26","ATT",     "6:00 PM"],
   // Group C
-  ["BRA","HAI",1,"2026-06-13","METLIFE"],  ["MAR","SCO",1,"2026-06-13","SOFI"],
-  ["BRA","SCO",2,"2026-06-19","METLIFE"],  ["MAR","HAI",2,"2026-06-19","SOFI"],
-  ["BRA","MAR",3,"2026-06-27","METLIFE"],  ["HAI","SCO",3,"2026-06-27","SOFI"],
+  ["BRA","HAI",1,"2026-06-13","METLIFE", "3:00 PM"], ["MAR","SCO",1,"2026-06-13","SOFI",    "6:00 PM"],
+  ["BRA","SCO",2,"2026-06-19","METLIFE", "6:00 PM"], ["MAR","HAI",2,"2026-06-19","SOFI",    "9:00 PM"],
+  ["BRA","MAR",3,"2026-06-27","METLIFE", "9:00 PM"], ["HAI","SCO",3,"2026-06-27","SOFI",    "9:00 PM"],
   // Group D
-  ["USA","PAR",1,"2026-06-14","METLIFE"],  ["AUS","TUR",1,"2026-06-14","SOFI"],
-  ["USA","AUS",2,"2026-06-20","ATT"],      ["PAR","TUR",2,"2026-06-20","NRG"],
-  ["USA","TUR",3,"2026-06-28","METLIFE"],  ["PAR","AUS",3,"2026-06-28","NRG"],
+  ["USA","PAR",1,"2026-06-14","METLIFE", "6:00 PM"], ["AUS","TUR",1,"2026-06-14","SOFI",    "9:00 PM"],
+  ["USA","AUS",2,"2026-06-20","ATT",     "3:00 PM"], ["PAR","TUR",2,"2026-06-20","NRG",     "6:00 PM"],
+  ["USA","TUR",3,"2026-06-28","METLIFE", "6:00 PM"], ["PAR","AUS",3,"2026-06-28","NRG",     "6:00 PM"],
   // Group E
-  ["GER","CUW",1,"2026-06-14","ATT"],      ["CIV","ECU",1,"2026-06-15","GILLETTE"],
-  ["GER","ECU",2,"2026-06-20","ATT"],      ["CUW","CIV",2,"2026-06-21","MERCEDES"],
-  ["GER","CIV",3,"2026-06-28","ATT"],      ["CUW","ECU",3,"2026-06-28","GILLETTE"],
+  ["GER","CUW",1,"2026-06-14","ATT",     "12:00 PM"],["CIV","ECU",1,"2026-06-15","GILLETTE","3:00 PM"],
+  ["GER","ECU",2,"2026-06-20","ATT",     "9:00 PM"], ["CUW","CIV",2,"2026-06-21","MERCEDES","3:00 PM"],
+  ["GER","CIV",3,"2026-06-28","ATT",     "9:00 PM"], ["CUW","ECU",3,"2026-06-28","GILLETTE","9:00 PM"],
   // Group F
-  ["NED","TUN",1,"2026-06-15","LEVIS"],    ["JPN","SWE",1,"2026-06-16","BCPLACE"],
-  ["NED","JPN",2,"2026-06-21","LEVIS"],    ["TUN","SWE",2,"2026-06-22","BCPLACE"],
-  ["NED","SWE",3,"2026-06-29","LEVIS"],    ["TUN","JPN",3,"2026-06-29","BCPLACE"],
+  ["NED","TUN",1,"2026-06-15","LEVIS",   "6:00 PM"], ["JPN","SWE",1,"2026-06-16","BCPLACE", "9:00 PM"],
+  ["NED","JPN",2,"2026-06-21","LEVIS",   "9:00 PM"], ["TUN","SWE",2,"2026-06-22","BCPLACE", "6:00 PM"],
+  ["NED","SWE",3,"2026-06-29","LEVIS",   "6:00 PM"], ["TUN","JPN",3,"2026-06-29","BCPLACE", "6:00 PM"],
   // Group G
-  ["BEL","NZL",1,"2026-06-16","ARROWHEAD"],["EGY","IRN",1,"2026-06-17","LINCOLN"],
-  ["BEL","EGY",2,"2026-06-22","ARROWHEAD"],["IRN","NZL",2,"2026-06-22","GILLETTE"],
-  ["BEL","IRN",3,"2026-06-29","ARROWHEAD"],["EGY","NZL",3,"2026-06-29","GILLETTE"],
+  ["BEL","NZL",1,"2026-06-16","ARROWHEAD","3:00 PM"],["EGY","IRN",1,"2026-06-17","LINCOLN", "12:00 PM"],
+  ["BEL","EGY",2,"2026-06-22","ARROWHEAD","9:00 PM"],["IRN","NZL",2,"2026-06-22","GILLETTE","12:00 PM"],
+  ["BEL","IRN",3,"2026-06-29","ARROWHEAD","9:00 PM"],["EGY","NZL",3,"2026-06-29","GILLETTE","9:00 PM"],
   // Group H
-  ["ESP","CPV",1,"2026-06-13","METLIFE"],  ["KSA","URU",1,"2026-06-14","NRG"],
-  ["ESP","KSA",2,"2026-06-19","METLIFE"],  ["CPV","URU",2,"2026-06-19","NRG"],
-  ["ESP","URU",3,"2026-06-29","METLIFE"],  ["CPV","KSA",3,"2026-06-29","ATT"],
+  ["ESP","CPV",1,"2026-06-13","METLIFE", "12:00 PM"],["KSA","URU",1,"2026-06-14","NRG",     "3:00 PM"],
+  ["ESP","KSA",2,"2026-06-19","METLIFE", "3:00 PM"], ["CPV","URU",2,"2026-06-19","NRG",     "12:00 PM"],
+  ["ESP","URU",3,"2026-06-29","METLIFE", "12:00 PM"],["CPV","KSA",3,"2026-06-29","ATT",     "12:00 PM"],
   // Group I
-  ["FRA","IRQ",1,"2026-06-15","SOFI"],     ["SEN","NOR",1,"2026-06-15","HARDROCK"],
-  ["FRA","NOR",2,"2026-06-21","SOFI"],     ["IRQ","SEN",2,"2026-06-21","HARDROCK"],
-  ["FRA","SEN",3,"2026-06-30","SOFI"],     ["IRQ","NOR",3,"2026-06-30","HARDROCK"],
+  ["FRA","IRQ",1,"2026-06-15","SOFI",    "12:00 PM"],["SEN","NOR",1,"2026-06-15","HARDROCK","9:00 PM"],
+  ["FRA","NOR",2,"2026-06-21","SOFI",    "6:00 PM"], ["IRQ","SEN",2,"2026-06-21","HARDROCK","12:00 PM"],
+  ["FRA","SEN",3,"2026-06-30","SOFI",    "9:00 PM"], ["IRQ","NOR",3,"2026-06-30","HARDROCK","9:00 PM"],
   // Group J
-  ["ARG","JOR",1,"2026-06-16","METLIFE"],  ["ALG","AUT",1,"2026-06-16","LEVIS"],
-  ["ARG","ALG",2,"2026-06-22","METLIFE"],  ["JOR","AUT",2,"2026-06-22","LINCOLN"],
-  ["ARG","AUT",3,"2026-06-30","METLIFE"],  ["ALG","JOR",3,"2026-06-30","LEVIS"],
+  ["ARG","JOR",1,"2026-06-16","METLIFE", "6:00 PM"], ["ALG","AUT",1,"2026-06-16","LEVIS",   "3:00 PM"],
+  ["ARG","ALG",2,"2026-06-22","METLIFE", "6:00 PM"], ["JOR","AUT",2,"2026-06-22","LINCOLN", "3:00 PM"],
+  ["ARG","AUT",3,"2026-06-30","METLIFE", "3:00 PM"], ["ALG","JOR",3,"2026-06-30","LEVIS",   "3:00 PM"],
   // Group K
-  ["POR","UZB",1,"2026-06-17","MERCEDES"], ["COD","COL",1,"2026-06-17","ARROWHEAD"],
-  ["POR","COD",2,"2026-06-23","MERCEDES"], ["UZB","COL",2,"2026-06-23","ARROWHEAD"],
-  ["POR","COL",3,"2026-07-01","MERCEDES"], ["UZB","COD",3,"2026-07-01","ARROWHEAD"],
+  ["POR","UZB",1,"2026-06-17","MERCEDES","6:00 PM"], ["COD","COL",1,"2026-06-17","ARROWHEAD","9:00 PM"],
+  ["POR","COD",2,"2026-06-23","MERCEDES","3:00 PM"], ["UZB","COL",2,"2026-06-23","ARROWHEAD","6:00 PM"],
+  ["POR","COL",3,"2026-07-01","MERCEDES","6:00 PM"], ["UZB","COD",3,"2026-07-01","ARROWHEAD","6:00 PM"],
   // Group L
-  ["ENG","PAN",1,"2026-06-12","SOFI"],     ["CRO","GHA",1,"2026-06-13","AKRON"],
-  ["ENG","GHA",2,"2026-06-18","SOFI"],     ["PAN","CRO",2,"2026-06-18","AKRON"],
-  ["ENG","CRO",3,"2026-07-02","SOFI"],     ["PAN","GHA",3,"2026-07-02","AKRON"],
+  ["ENG","PAN",1,"2026-06-12","SOFI",    "6:00 PM"], ["CRO","GHA",1,"2026-06-13","AKRON",   "3:00 PM"],
+  ["ENG","GHA",2,"2026-06-18","SOFI",    "9:00 PM"], ["PAN","CRO",2,"2026-06-18","AKRON",   "3:00 PM"],
+  ["ENG","CRO",3,"2026-07-02","SOFI",    "3:00 PM"], ["PAN","GHA",3,"2026-07-02","AKRON",   "3:00 PM"],
 ];
 
 // ============================================================
@@ -897,7 +898,7 @@ export default function App() {
 
         {/* SCHEDULE TAB */}
         {activeTab === "schedule" && (() => {
-          const filtered = MATCH_SCHEDULE.filter(([h, a, md, date, venue]) => {
+          const filtered = MATCH_SCHEDULE.filter(([h, a, md, date, venue, time]) => {
             const grp = Object.entries(GROUPS).find(([g, ts]) => ts.includes(h) && ts.includes(a))?.[0];
             if (scheduleGroup !== "all" && grp !== scheduleGroup) return false;
             if (scheduleMatchday !== "all" && String(md) !== scheduleMatchday) return false;
@@ -939,7 +940,7 @@ export default function App() {
 
               {/* Match cards */}
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))", gap: 10 }}>
-                {filtered.map(([homeCode, awayCode, md, date, venueKey], i) => {
+                {filtered.map(([homeCode, awayCode, md, date, venueKey, timeET], i) => {
                   const home = TEAMS_DATA[homeCode], away = TEAMS_DATA[awayCode];
                   const venue = VENUES[venueKey];
                   const grp = getGroupFor(homeCode, awayCode);
@@ -952,6 +953,7 @@ export default function App() {
                   const scoreA = isFinished ? (homeIsReal ? real.awayScore : real.homeScore) : null;
                   const d = new Date(date + "T12:00:00");
                   const dateStr = d.toLocaleDateString("en-US", { month: "short", day: "numeric", weekday: "short" });
+                  const timeStr = `${timeET} ET`;
                   return (
                     <div key={i} style={{
                       padding: "14px 16px",
@@ -960,9 +962,16 @@ export default function App() {
                       borderRadius: 4,
                     }}>
                       {/* Header */}
-                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 10, fontSize: 10, color: "rgba(255,255,255,0.35)", letterSpacing: 1 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10, fontSize: 10, color: "rgba(255,255,255,0.35)", letterSpacing: 1 }}>
                         <span style={{ color: "rgba(255,215,0,0.55)" }}>GROUP {grp} · MD{md}</span>
-                        <span>{isFinished ? <span style={{ color: "rgba(0,220,100,0.8)" }}>FT</span> : isToday ? <span style={{ color: "#FFD700" }}>TODAY</span> : dateStr}</span>
+                        <span style={{ textAlign: "right" }}>
+                          {isFinished
+                            ? <span style={{ color: "rgba(0,220,100,0.8)", fontWeight: 700 }}>FT</span>
+                            : isToday
+                              ? <><span style={{ color: "#FFD700", fontWeight: 700 }}>TODAY</span><span style={{ marginLeft: 5, color: "#FFD700", opacity: 0.7 }}>{timeStr}</span></>
+                              : <>{dateStr}<span style={{ marginLeft: 5, color: "rgba(255,215,0,0.45)" }}>{timeStr}</span></>
+                          }
+                        </span>
                       </div>
                       {/* Teams + Score */}
                       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
