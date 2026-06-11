@@ -122,8 +122,8 @@ const MATCH_SCHEDULE = [
   ["SCO","MAR",2,"2026-06-19","GILLETTE", "6:00 PM"],  ["BRA","HAI",2,"2026-06-19","LINCOLN",  "9:00 PM"],
   ["SCO","BRA",3,"2026-06-24","HARDROCK", "6:00 PM"],  ["MAR","HAI",3,"2026-06-24","MERCEDES", "6:00 PM"],
   // ── Group D ──  USA / PAR / AUS / TUR
-  ["USA","PAR",1,"2026-06-12","SOFI",     "9:00 PM"],  ["AUS","TUR",1,"2026-06-14","LEVIS",    "12:00 AM"],
-  ["USA","AUS",2,"2026-06-19","LUMEN",    "3:00 PM"],  ["TUR","PAR",2,"2026-06-20","LEVIS",    "12:00 AM"],
+  ["USA","PAR",1,"2026-06-12","SOFI",     "9:00 PM"],  ["AUS","TUR",1,"2026-06-13","LEVIS",    "12:00 AM"],
+  ["USA","AUS",2,"2026-06-19","LUMEN",    "3:00 PM"],  ["TUR","PAR",2,"2026-06-19","LEVIS",    "12:00 AM"],
   ["TUR","USA",3,"2026-06-25","SOFI",     "10:00 PM"], ["PAR","AUS",3,"2026-06-25","LEVIS",    "10:00 PM"],
   // ── Group E ──  GER / CUW / CIV / ECU
   ["GER","CUW",1,"2026-06-14","NRG",      "1:00 PM"],  ["CIV","ECU",1,"2026-06-14","LINCOLN",  "7:00 PM"],
@@ -131,10 +131,10 @@ const MATCH_SCHEDULE = [
   ["ECU","GER",3,"2026-06-25","METLIFE",  "4:00 PM"],  ["CUW","CIV",3,"2026-06-25","LINCOLN",  "4:00 PM"],
   // ── Group F ──  NED / JPN / SWE / TUN
   ["NED","JPN",1,"2026-06-14","ATT",      "4:00 PM"],  ["SWE","TUN",1,"2026-06-14","AKRON",    "10:00 PM"],
-  ["NED","SWE",2,"2026-06-20","METLIFE",  "1:00 PM"],  ["TUN","JPN",2,"2026-06-21","SOFI",     "12:00 AM"],
+  ["NED","SWE",2,"2026-06-20","METLIFE",  "1:00 PM"],  ["TUN","JPN",2,"2026-06-20","SOFI",     "12:00 AM"],
   ["JPN","SWE",3,"2026-06-25","ATT",      "7:00 PM"],  ["TUN","NED",3,"2026-06-25","ARROWHEAD","7:00 PM"],
   // ── Group G ──  BEL / EGY / IRN / NZL
-  ["BEL","EGY",1,"2026-06-15","LUMEN",    "6:00 PM"],  ["IRN","NZL",1,"2026-06-16","SOFI",     "12:00 AM"],
+  ["BEL","EGY",1,"2026-06-15","LUMEN",    "6:00 PM"],  ["IRN","NZL",1,"2026-06-15","SOFI",     "12:00 AM"],
   ["BEL","IRN",2,"2026-06-21","ARROWHEAD","3:00 PM"],  ["NZL","EGY",2,"2026-06-21","LEVIS",    "9:00 PM"],
   ["EGY","IRN",3,"2026-06-26","LUMEN",    "11:00 PM"], ["NZL","BEL",3,"2026-06-26","BCPLACE",  "11:00 PM"],
   // ── Group H ──  ESP / CPV / KSA / URU
@@ -146,7 +146,7 @@ const MATCH_SCHEDULE = [
   ["FRA","IRQ",2,"2026-06-22","ATT",      "5:00 PM"],  ["NOR","SEN",2,"2026-06-22","LUMEN",    "8:00 PM"],
   ["NOR","FRA",3,"2026-06-26","GILLETTE", "3:00 PM"],  ["SEN","IRQ",3,"2026-06-26","BMO",      "3:00 PM"],
   // ── Group J ──  ARG / ALG / AUT / JOR
-  ["ARG","ALG",1,"2026-06-16","ARROWHEAD","9:00 PM"],  ["AUT","JOR",1,"2026-06-17","SOFI",     "12:00 AM"],
+  ["ARG","ALG",1,"2026-06-16","ARROWHEAD","9:00 PM"],  ["AUT","JOR",1,"2026-06-16","SOFI",     "12:00 AM"],
   ["ARG","AUT",2,"2026-06-22","METLIFE",  "1:00 PM"],  ["JOR","ALG",2,"2026-06-22","SOFI",     "11:00 PM"],
   ["ALG","AUT",3,"2026-06-27","ARROWHEAD","10:00 PM"], ["JOR","ARG",3,"2026-06-27","ATT",      "10:00 PM"],
   // ── Group K ──  POR / COD / UZB / COL
