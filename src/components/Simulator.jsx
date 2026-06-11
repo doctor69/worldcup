@@ -110,7 +110,7 @@ const VENUES = {
 // ============================================================
 const MATCH_SCHEDULE = [
   // Group A
-  ["MEX","RSA",1,"2026-06-11","AZTECA",  "8:00 PM"], ["KOR","CZE",1,"2026-06-12","METLIFE", "3:00 PM"],
+  ["MEX","RSA",1,"2026-06-11","AZTECA",  "3:00 PM"], ["KOR","CZE",1,"2026-06-12","METLIFE", "3:00 PM"],
   ["MEX","CZE",2,"2026-06-18","AZTECA",  "6:00 PM"], ["RSA","KOR",2,"2026-06-17","LUMEN",   "9:00 PM"],
   ["MEX","KOR",3,"2026-06-27","AZTECA",  "3:00 PM"], ["RSA","CZE",3,"2026-06-27","METLIFE", "3:00 PM"],
   // Group B
