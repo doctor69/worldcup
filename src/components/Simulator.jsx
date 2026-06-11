@@ -425,16 +425,63 @@ function runMonteCarloSimulation(iterations = 1000, liveGroupMatches = []) {
 }
 
 // ============================================================
-// BRACKET PREVIEW: one tournament run capturing full matchup pairs
+// BRACKET PREVIEW: deterministic — always advances stronger team
+// so the champion here always matches the Monte Carlo #1 favorite
 // ============================================================
+function pickWinner(codeA, codeB) {
+  return getTeamStrength(codeA) >= getTeamStrength(codeB) ? codeA : codeB;
+}
+
+function simulateGroupDeterministic(groupTeams, liveMatches = []) {
+  const standings = {};
+  groupTeams.forEach(t => standings[t] = { pts: 0, gd: 0, gf: 0, played: 0 });
+
+  for (let i = 0; i < groupTeams.length; i++) {
+    for (let j = i + 1; j < groupTeams.length; j++) {
+      const a = groupTeams[i], b = groupTeams[j];
+      standings[a].played++;
+      standings[b].played++;
+
+      const real = liveMatches.find(m =>
+        (m.homeTeam === a && m.awayTeam === b) ||
+        (m.homeTeam === b && m.awayTeam === a)
+      );
+
+      if (real && real.status === 'FINISHED' && real.homeScore !== null) {
+        const homeIsA = real.homeTeam === a;
+        const gA = homeIsA ? real.homeScore : real.awayScore;
+        const gB = homeIsA ? real.awayScore : real.homeScore;
+        standings[a].gf += gA; standings[b].gf += gB;
+        standings[a].gd += gA - gB; standings[b].gd += gB - gA;
+        if (gA > gB) standings[a].pts += 3;
+        else if (gB > gA) standings[b].pts += 3;
+        else { standings[a].pts += 1; standings[b].pts += 1; }
+      } else {
+        const winner = pickWinner(a, b);
+        const loser = winner === a ? b : a;
+        standings[winner].pts += 3;
+        standings[winner].gd += 1; standings[winner].gf += 2;
+        standings[loser].gf += 1; standings[loser].gd -= 1;
+      }
+    }
+  }
+
+  const sorted = Object.keys(standings).sort((a, b) => {
+    if (standings[b].pts !== standings[a].pts) return standings[b].pts - standings[a].pts;
+    if (standings[b].gd !== standings[a].gd) return standings[b].gd - standings[a].gd;
+    return standings[b].gf - standings[a].gf;
+  });
+  return { sorted, standings };
+}
+
 function runBracketPreview(liveGroupMatches = []) {
   const makePairs = (teams) => {
     const pairs = [], winners = [];
     for (let i = 0; i < teams.length; i += 2) {
       if (teams[i] && teams[i + 1]) {
-        const r = simulateMatch(teams[i], teams[i + 1], true);
-        pairs.push({ t1: teams[i], t2: teams[i + 1], winner: r.winner });
-        winners.push(r.winner);
+        const w = pickWinner(teams[i], teams[i + 1]);
+        pairs.push({ t1: teams[i], t2: teams[i + 1], winner: w });
+        winners.push(w);
       } else if (teams[i]) {
         pairs.push({ t1: teams[i], t2: null, winner: teams[i] });
         winners.push(teams[i]);
@@ -443,58 +490,55 @@ function runBracketPreview(liveGroupMatches = []) {
     return { pairs, winners };
   };
 
-  const base = runFullTournament(liveGroupMatches);
+  // Deterministic group stage
+  const groupResults = {};
+  const allThirdPlace = [];
+  Object.entries(GROUPS).forEach(([grp, teams]) => {
+    const groupLive = liveGroupMatches.filter(m => m.group === grp);
+    const { sorted, standings } = simulateGroupDeterministic(teams, groupLive);
+    groupResults[grp] = { winner: sorted[0], runnerUp: sorted[1], third: sorted[2], fourth: sorted[3], standings };
+    allThirdPlace.push({ code: sorted[2], pts: standings[sorted[2]].pts, gd: standings[sorted[2]].gd });
+  });
 
-  // Re-run rounds to capture pairs (runFullTournament already used random results;
-  // we re-simulate once more purely for display — probabilities are consistent)
-  const r32Input = (() => {
-    const gr = base.groupResults;
-    const adv = Object.entries(GROUPS).flatMap(([g]) => [gr[g].winner, gr[g].runnerUp]);
-    const thirds = Object.entries(GROUPS)
-      .map(([g]) => ({ code: gr[g].third, pts: gr[g].standings[gr[g].third].pts, gd: gr[g].standings[gr[g].third].gd }))
-      .sort((a, b) => b.pts - a.pts || b.gd - a.gd)
-      .slice(0, 8).map(t => t.code);
+  const advancingThird = [...allThirdPlace]
+    .sort((a, b) => b.pts - a.pts || b.gd - a.gd)
+    .slice(0, 8).map(t => t.code);
 
-    const r32 = [
-      gr["A"].winner,  thirds[0] || gr["B"].runnerUp,
-      gr["C"].winner,  gr["D"].runnerUp,
-      gr["E"].winner,  gr["F"].runnerUp,
-      gr["G"].winner,  gr["H"].runnerUp,
-      gr["I"].winner,  gr["J"].runnerUp,
-      gr["K"].winner,  gr["L"].runnerUp,
-      gr["B"].winner,  thirds[1] || gr["A"].runnerUp,
-      gr["D"].winner,  gr["C"].runnerUp,
-      gr["F"].winner,  gr["E"].runnerUp,
-      gr["H"].winner,  gr["G"].runnerUp,
-      gr["J"].winner,  gr["I"].runnerUp,
-      gr["L"].winner,  gr["K"].runnerUp,
-      thirds[2] || gr["C"].runnerUp, thirds[3] || gr["D"].runnerUp,
-      thirds[4] || gr["E"].runnerUp, thirds[5] || gr["F"].runnerUp,
-      thirds[6] || gr["G"].runnerUp, thirds[7] || gr["H"].runnerUp,
-      gr["A"].runnerUp, gr["B"].winner,
-      gr["C"].winner,  gr["D"].winner,
-    ].filter(Boolean);
-    const seen = new Set();
-    const unique = [];
-    r32.forEach(t => { if (t && !seen.has(t)) { seen.add(t); unique.push(t); } });
-    while (unique.length < 32) {
-      const extra = [...adv, ...thirds].find(t => !seen.has(t));
-      if (extra) { seen.add(extra); unique.push(extra); } else break;
-    }
-    return unique.slice(0, 32);
-  })();
+  const gr = groupResults;
+  const r32raw = [
+    gr["A"].winner,  advancingThird[0] || gr["B"].runnerUp,
+    gr["C"].winner,  gr["D"].runnerUp,
+    gr["E"].winner,  gr["F"].runnerUp,
+    gr["G"].winner,  gr["H"].runnerUp,
+    gr["I"].winner,  gr["J"].runnerUp,
+    gr["K"].winner,  gr["L"].runnerUp,
+    gr["B"].winner,  advancingThird[1] || gr["A"].runnerUp,
+    gr["D"].winner,  gr["C"].runnerUp,
+    gr["F"].winner,  gr["E"].runnerUp,
+    gr["H"].winner,  gr["G"].runnerUp,
+    gr["J"].winner,  gr["I"].runnerUp,
+    gr["L"].winner,  gr["K"].runnerUp,
+    advancingThird[2] || gr["C"].runnerUp, advancingThird[3] || gr["D"].runnerUp,
+    advancingThird[4] || gr["E"].runnerUp, advancingThird[5] || gr["F"].runnerUp,
+    advancingThird[6] || gr["G"].runnerUp, advancingThird[7] || gr["H"].runnerUp,
+    gr["A"].runnerUp, gr["B"].winner,
+    gr["C"].winner,  gr["D"].winner,
+  ].filter(Boolean);
 
-  const { pairs: r32Pairs, winners: r16Input } = makePairs(r32Input);
-  const { pairs: r16Pairs, winners: qfInput } = makePairs(r16Input);
-  const { pairs: qfPairs, winners: sfInput } = makePairs(qfInput);
-  const { pairs: sfPairs, winners: finalists } = makePairs(sfInput);
-  const finalResult = finalists.length === 2 ? simulateMatch(finalists[0], finalists[1], true) : null;
+  const seen = new Set();
+  const r32 = [];
+  r32raw.forEach(t => { if (t && !seen.has(t)) { seen.add(t); r32.push(t); } });
+
+  const { pairs: r32Pairs, winners: r16Input } = makePairs(r32.slice(0, 32));
+  const { pairs: r16Pairs, winners: qfInput }  = makePairs(r16Input);
+  const { pairs: qfPairs,  winners: sfInput }  = makePairs(qfInput);
+  const { pairs: sfPairs,  winners: finalists } = makePairs(sfInput);
+  const champion = finalists.length === 2 ? pickWinner(finalists[0], finalists[1]) : finalists[0] || null;
 
   return {
-    groupResults: base.groupResults,
     r32Pairs, r16Pairs, qfPairs, sfPairs,
-    finalPair: finalists.length === 2 ? { t1: finalists[0], t2: finalists[1], winner: finalResult?.winner } : null,
-    champion: finalResult?.winner || finalists[0] || null,
+    finalPair: finalists.length === 2 ? { t1: finalists[0], t2: finalists[1], winner: champion } : null,
+    champion,
   };
 }
 
