@@ -918,7 +918,8 @@ export default function App() {
           const getRealScore = (h, a) => (liveData.groupMatches || []).find(m =>
             (m.homeTeam === h && m.awayTeam === a) || (m.homeTeam === a && m.awayTeam === h)
           );
-          const today = new Date().toISOString().slice(0, 10);
+          const _now = new Date();
+          const today = `${_now.getFullYear()}-${String(_now.getMonth()+1).padStart(2,'0')}-${String(_now.getDate()).padStart(2,'0')}`;
           return (
             <div>
               <div style={{ fontSize: 11, letterSpacing: 4, color: "rgba(255,215,0,0.5)", marginBottom: 16, textTransform: "uppercase" }}>
