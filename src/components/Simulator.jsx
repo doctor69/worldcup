@@ -334,39 +334,28 @@ function runFullTournament(liveGroupMatches = []) {
     return winners;
   };
   
-  // Bracket: assign group winners vs best 3rd place / runners-up
-  const r32 = [
-    groupResults["A"].winner, advancingThird[0] || groupResults["B"].runnerUp,
-    groupResults["C"].winner, groupResults["D"].runnerUp,
-    groupResults["E"].winner, groupResults["F"].runnerUp,
-    groupResults["G"].winner, groupResults["H"].runnerUp,
-    groupResults["I"].winner, groupResults["J"].runnerUp,
-    groupResults["K"].winner, groupResults["L"].runnerUp,
-    groupResults["B"].winner, advancingThird[1] || groupResults["A"].runnerUp,
-    groupResults["D"].winner, groupResults["C"].runnerUp,
-    groupResults["F"].winner, groupResults["E"].runnerUp,
-    groupResults["H"].winner, groupResults["G"].runnerUp,
-    groupResults["J"].winner, groupResults["I"].runnerUp,
-    groupResults["L"].winner, groupResults["K"].runnerUp,
-    advancingThird[2] || groupResults["C"].runnerUp, advancingThird[3] || groupResults["D"].runnerUp,
-    advancingThird[4] || groupResults["E"].runnerUp, advancingThird[5] || groupResults["F"].runnerUp,
-    advancingThird[6] || groupResults["G"].runnerUp, advancingThird[7] || groupResults["H"].runnerUp,
-    groupResults["A"].runnerUp, groupResults["B"].winner,
-    groupResults["C"].winner, groupResults["D"].winner,
-  ].filter(Boolean).slice(0, 32);
-  
-  // Deduplicate
-  const seen = new Set();
-  const uniqueR32 = [];
-  r32.forEach(t => { if (t && !seen.has(t)) { seen.add(t); uniqueR32.push(t); }});
-  // Fill if needed
-  const allAdvancers = [...new Set([...r32Teams])];
-  while (uniqueR32.length < 32) {
-    const extra = allAdvancers.find(t => !seen.has(t));
-    if (extra) { seen.add(extra); uniqueR32.push(extra); } else break;
-  }
-  
-  const r16 = advanceRound(uniqueR32.slice(0, 32));
+  // 32-team bracket: same seeding as runBracketPreview
+  const gr = groupResults;
+  const uniqueR32 = [
+    gr["A"].winner, gr["B"].runnerUp,
+    gr["C"].winner, gr["D"].runnerUp,
+    gr["E"].winner, gr["F"].runnerUp,
+    gr["G"].winner, gr["H"].runnerUp,
+    gr["I"].winner, gr["J"].runnerUp,
+    gr["K"].winner, gr["L"].runnerUp,
+    gr["B"].winner, gr["A"].runnerUp,
+    gr["D"].winner, gr["C"].runnerUp,
+    gr["F"].winner, gr["E"].runnerUp,
+    gr["H"].winner, gr["G"].runnerUp,
+    gr["J"].winner, gr["I"].runnerUp,
+    gr["L"].winner, gr["K"].runnerUp,
+    advancingThird[0], advancingThird[1],
+    advancingThird[2], advancingThird[3],
+    advancingThird[4], advancingThird[5],
+    advancingThird[6], advancingThird[7],
+  ].filter(Boolean);
+
+  const r16 = advanceRound(uniqueR32);
   const qf = advanceRound(r16);
   const sf = advanceRound(qf);
   const thirdPlaceMatch = sf.length >= 2 ? simulateMatch(sf[0] === sf[1] ? qf[0] : sf[0], sf[1], true) : null;
@@ -475,12 +464,22 @@ function simulateGroupDeterministic(groupTeams, liveMatches = []) {
   return { sorted, standings };
 }
 
-function runBracketPreview(liveGroupMatches = []) {
+function runBracketPreview(liveGroupMatches = [], mcWinPcts = {}) {
+  const hasMC = Object.keys(mcWinPcts).length > 0;
+  // When MC data is available, pick the team with higher MC win% so the
+  // bracket champion always matches the simulation's #1 favorite.
+  const pick = (a, b) => {
+    if (!a) return b;
+    if (!b) return a;
+    if (hasMC) return (mcWinPcts[a] || 0) >= (mcWinPcts[b] || 0) ? a : b;
+    return pickWinner(a, b);
+  };
+
   const makePairs = (teams) => {
     const pairs = [], winners = [];
     for (let i = 0; i < teams.length; i += 2) {
       if (teams[i] && teams[i + 1]) {
-        const w = pickWinner(teams[i], teams[i + 1]);
+        const w = pick(teams[i], teams[i + 1]);
         pairs.push({ t1: teams[i], t2: teams[i + 1], winner: w });
         winners.push(w);
       } else if (teams[i]) {
@@ -506,35 +505,32 @@ function runBracketPreview(liveGroupMatches = []) {
     .slice(0, 8).map(t => t.code);
 
   const gr = groupResults;
-  const r32raw = [
-    gr["A"].winner,  advancingThird[0] || gr["B"].runnerUp,
-    gr["C"].winner,  gr["D"].runnerUp,
-    gr["E"].winner,  gr["F"].runnerUp,
-    gr["G"].winner,  gr["H"].runnerUp,
-    gr["I"].winner,  gr["J"].runnerUp,
-    gr["K"].winner,  gr["L"].runnerUp,
-    gr["B"].winner,  advancingThird[1] || gr["A"].runnerUp,
-    gr["D"].winner,  gr["C"].runnerUp,
-    gr["F"].winner,  gr["E"].runnerUp,
-    gr["H"].winner,  gr["G"].runnerUp,
-    gr["J"].winner,  gr["I"].runnerUp,
-    gr["L"].winner,  gr["K"].runnerUp,
-    advancingThird[2] || gr["C"].runnerUp, advancingThird[3] || gr["D"].runnerUp,
-    advancingThird[4] || gr["E"].runnerUp, advancingThird[5] || gr["F"].runnerUp,
-    advancingThird[6] || gr["G"].runnerUp, advancingThird[7] || gr["H"].runnerUp,
-    gr["A"].runnerUp, gr["B"].winner,
-    gr["C"].winner,  gr["D"].winner,
+  // 32-team bracket: 12 winners × 12 runners-up cross-paired, 8 thirds vs each other.
+  // All 32 slots are explicit — no fallbacks, no duplicates.
+  const r32 = [
+    gr["A"].winner, gr["B"].runnerUp,
+    gr["C"].winner, gr["D"].runnerUp,
+    gr["E"].winner, gr["F"].runnerUp,
+    gr["G"].winner, gr["H"].runnerUp,
+    gr["I"].winner, gr["J"].runnerUp,
+    gr["K"].winner, gr["L"].runnerUp,
+    gr["B"].winner, gr["A"].runnerUp,
+    gr["D"].winner, gr["C"].runnerUp,
+    gr["F"].winner, gr["E"].runnerUp,
+    gr["H"].winner, gr["G"].runnerUp,
+    gr["J"].winner, gr["I"].runnerUp,
+    gr["L"].winner, gr["K"].runnerUp,
+    advancingThird[0], advancingThird[1],
+    advancingThird[2], advancingThird[3],
+    advancingThird[4], advancingThird[5],
+    advancingThird[6], advancingThird[7],
   ].filter(Boolean);
 
-  const seen = new Set();
-  const r32 = [];
-  r32raw.forEach(t => { if (t && !seen.has(t)) { seen.add(t); r32.push(t); } });
-
-  const { pairs: r32Pairs, winners: r16Input } = makePairs(r32.slice(0, 32));
+  const { pairs: r32Pairs, winners: r16Input } = makePairs(r32);
   const { pairs: r16Pairs, winners: qfInput }  = makePairs(r16Input);
   const { pairs: qfPairs,  winners: sfInput }  = makePairs(qfInput);
   const { pairs: sfPairs,  winners: finalists } = makePairs(sfInput);
-  const champion = finalists.length === 2 ? pickWinner(finalists[0], finalists[1]) : finalists[0] || null;
+  const champion = finalists.length === 2 ? pick(finalists[0], finalists[1]) : finalists[0] || null;
 
   return {
     r32Pairs, r16Pairs, qfPairs, sfPairs,
@@ -606,7 +602,8 @@ export default function App() {
 
     setTimeout(() => {
       const results = runMonteCarloSimulation(1000, liveData.groupMatches || []);
-      const bracket = runBracketPreview(liveData.groupMatches || []);
+      const mcWinPcts = results.reduce((acc, r) => { acc[r.code] = parseFloat(r.winPct); return acc; }, {});
+      const bracket = runBracketPreview(liveData.groupMatches || [], mcWinPcts);
       clearInterval(interval);
       setProgress(100);
       setTimeout(() => {
