@@ -1,39 +1,321 @@
 {
-  "lastUpdated": "2026-06-20T20:00:00Z",
+  "lastUpdated": "2026-06-20T22:15:33.956Z",
   "groupMatches": [
-    {"homeTeam":"MEX","awayTeam":"RSA","homeScore":2,"awayScore":0,"status":"FINISHED","utcDate":"2026-06-11T19:00:00Z","group":"A"},
-    {"homeTeam":"KOR","awayTeam":"CZE","homeScore":2,"awayScore":1,"status":"FINISHED","utcDate":"2026-06-12T02:00:00Z","group":"A"},
-    {"homeTeam":"CAN","awayTeam":"BIH","homeScore":1,"awayScore":1,"status":"FINISHED","utcDate":"2026-06-12T19:00:00Z","group":"B"},
-    {"homeTeam":"USA","awayTeam":"PAR","homeScore":4,"awayScore":1,"status":"FINISHED","utcDate":"2026-06-13T01:00:00Z","group":"D"},
-    {"homeTeam":"QAT","awayTeam":"SUI","homeScore":1,"awayScore":1,"status":"FINISHED","utcDate":"2026-06-13T19:00:00Z","group":"B"},
-    {"homeTeam":"BRA","awayTeam":"MAR","homeScore":1,"awayScore":1,"status":"FINISHED","utcDate":"2026-06-13T22:00:00Z","group":"C"},
-    {"homeTeam":"HAI","awayTeam":"SCO","homeScore":0,"awayScore":1,"status":"FINISHED","utcDate":"2026-06-14T01:00:00Z","group":"C"},
-    {"homeTeam":"AUS","awayTeam":"TUR","homeScore":2,"awayScore":0,"status":"FINISHED","utcDate":"2026-06-14T04:00:00Z","group":"D"},
-    {"homeTeam":"GER","awayTeam":"CUW","homeScore":7,"awayScore":1,"status":"FINISHED","utcDate":"2026-06-14T17:00:00Z","group":"E"},
-    {"homeTeam":"NED","awayTeam":"JPN","homeScore":2,"awayScore":2,"status":"FINISHED","utcDate":"2026-06-14T20:00:00Z","group":"F"},
-    {"homeTeam":"CIV","awayTeam":"ECU","homeScore":1,"awayScore":0,"status":"FINISHED","utcDate":"2026-06-14T23:00:00Z","group":"E"},
-    {"homeTeam":"SWE","awayTeam":"TUN","homeScore":5,"awayScore":1,"status":"FINISHED","utcDate":"2026-06-15T02:00:00Z","group":"F"},
-    {"homeTeam":"ESP","awayTeam":"CPV","homeScore":0,"awayScore":0,"status":"FINISHED","utcDate":"2026-06-15T16:00:00Z","group":"H"},
-    {"homeTeam":"BEL","awayTeam":"EGY","homeScore":1,"awayScore":1,"status":"FINISHED","utcDate":"2026-06-15T22:00:00Z","group":"G"},
-    {"homeTeam":"KSA","awayTeam":"URU","homeScore":1,"awayScore":1,"status":"FINISHED","utcDate":"2026-06-15T22:00:00Z","group":"H"},
-    {"homeTeam":"IRN","awayTeam":"NZL","homeScore":2,"awayScore":2,"status":"FINISHED","utcDate":"2026-06-16T04:00:00Z","group":"G"},
-    {"homeTeam":"FRA","awayTeam":"SEN","homeScore":3,"awayScore":1,"status":"FINISHED","utcDate":"2026-06-16T19:00:00Z","group":"I"},
-    {"homeTeam":"IRQ","awayTeam":"NOR","homeScore":1,"awayScore":4,"status":"FINISHED","utcDate":"2026-06-16T22:00:00Z","group":"I"},
-    {"homeTeam":"ARG","awayTeam":"ALG","homeScore":3,"awayScore":0,"status":"FINISHED","utcDate":"2026-06-17T01:00:00Z","group":"J"},
-    {"homeTeam":"AUT","awayTeam":"JOR","homeScore":3,"awayScore":1,"status":"FINISHED","utcDate":"2026-06-17T04:00:00Z","group":"J"},
-    {"homeTeam":"POR","awayTeam":"COD","homeScore":1,"awayScore":1,"status":"FINISHED","utcDate":"2026-06-17T17:00:00Z","group":"K"},
-    {"homeTeam":"ENG","awayTeam":"CRO","homeScore":4,"awayScore":2,"status":"FINISHED","utcDate":"2026-06-17T20:00:00Z","group":"L"},
-    {"homeTeam":"GHA","awayTeam":"PAN","homeScore":1,"awayScore":0,"status":"FINISHED","utcDate":"2026-06-17T23:00:00Z","group":"L"},
-    {"homeTeam":"UZB","awayTeam":"COL","homeScore":1,"awayScore":3,"status":"FINISHED","utcDate":"2026-06-18T02:00:00Z","group":"K"},
-    {"homeTeam":"CZE","awayTeam":"RSA","homeScore":1,"awayScore":1,"status":"FINISHED","utcDate":"2026-06-18T16:00:00Z","group":"A"},
-    {"homeTeam":"SUI","awayTeam":"BIH","homeScore":4,"awayScore":1,"status":"FINISHED","utcDate":"2026-06-18T19:00:00Z","group":"B"},
-    {"homeTeam":"CAN","awayTeam":"QAT","homeScore":6,"awayScore":0,"status":"FINISHED","utcDate":"2026-06-18T22:00:00Z","group":"B"},
-    {"homeTeam":"MEX","awayTeam":"KOR","homeScore":1,"awayScore":0,"status":"FINISHED","utcDate":"2026-06-19T01:00:00Z","group":"A"},
-    {"homeTeam":"USA","awayTeam":"AUS","homeScore":2,"awayScore":0,"status":"FINISHED","utcDate":"2026-06-19T19:00:00Z","group":"D"},
-    {"homeTeam":"SCO","awayTeam":"MAR","homeScore":0,"awayScore":1,"status":"FINISHED","utcDate":"2026-06-19T22:00:00Z","group":"C"},
-    {"homeTeam":"BRA","awayTeam":"HAI","homeScore":3,"awayScore":0,"status":"FINISHED","utcDate":"2026-06-20T01:00:00Z","group":"C"},
-    {"homeTeam":"TUR","awayTeam":"PAR","homeScore":0,"awayScore":1,"status":"FINISHED","utcDate":"2026-06-20T04:00:00Z","group":"D"},
-    {"homeTeam":"NED","awayTeam":"SWE","homeScore":5,"awayScore":1,"status":"FINISHED","utcDate":"2026-06-20T17:00:00Z","group":"F"}
+    {
+      "homeTeam": "MEX",
+      "awayTeam": "RSA",
+      "homeScore": 2,
+      "awayScore": 0,
+      "status": "FINISHED",
+      "utcDate": "2026-06-11T19:00Z",
+      "group": "A"
+    },
+    {
+      "homeTeam": "KOR",
+      "awayTeam": "CZE",
+      "homeScore": 2,
+      "awayScore": 1,
+      "status": "FINISHED",
+      "utcDate": "2026-06-12T02:00Z",
+      "group": "A"
+    },
+    {
+      "homeTeam": "CAN",
+      "awayTeam": "BIH",
+      "homeScore": 1,
+      "awayScore": 1,
+      "status": "FINISHED",
+      "utcDate": "2026-06-12T19:00Z",
+      "group": "B"
+    },
+    {
+      "homeTeam": "USA",
+      "awayTeam": "PAR",
+      "homeScore": 4,
+      "awayScore": 1,
+      "status": "FINISHED",
+      "utcDate": "2026-06-13T01:00Z",
+      "group": "D"
+    },
+    {
+      "homeTeam": "QAT",
+      "awayTeam": "SUI",
+      "homeScore": 1,
+      "awayScore": 1,
+      "status": "FINISHED",
+      "utcDate": "2026-06-13T19:00Z",
+      "group": "B"
+    },
+    {
+      "homeTeam": "BRA",
+      "awayTeam": "MAR",
+      "homeScore": 1,
+      "awayScore": 1,
+      "status": "FINISHED",
+      "utcDate": "2026-06-13T22:00Z",
+      "group": "C"
+    },
+    {
+      "homeTeam": "HAI",
+      "awayTeam": "SCO",
+      "homeScore": 0,
+      "awayScore": 1,
+      "status": "FINISHED",
+      "utcDate": "2026-06-14T01:00Z",
+      "group": "C"
+    },
+    {
+      "homeTeam": "AUS",
+      "awayTeam": "TUR",
+      "homeScore": 2,
+      "awayScore": 0,
+      "status": "FINISHED",
+      "utcDate": "2026-06-14T04:00Z",
+      "group": "D"
+    },
+    {
+      "homeTeam": "GER",
+      "awayTeam": "CUW",
+      "homeScore": 7,
+      "awayScore": 1,
+      "status": "FINISHED",
+      "utcDate": "2026-06-14T17:00Z",
+      "group": "E"
+    },
+    {
+      "homeTeam": "NED",
+      "awayTeam": "JPN",
+      "homeScore": 2,
+      "awayScore": 2,
+      "status": "FINISHED",
+      "utcDate": "2026-06-14T20:00Z",
+      "group": "F"
+    },
+    {
+      "homeTeam": "CIV",
+      "awayTeam": "ECU",
+      "homeScore": 1,
+      "awayScore": 0,
+      "status": "FINISHED",
+      "utcDate": "2026-06-14T23:00Z",
+      "group": "E"
+    },
+    {
+      "homeTeam": "SWE",
+      "awayTeam": "TUN",
+      "homeScore": 5,
+      "awayScore": 1,
+      "status": "FINISHED",
+      "utcDate": "2026-06-15T02:00Z",
+      "group": "F"
+    },
+    {
+      "homeTeam": "ESP",
+      "awayTeam": "CPV",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "FINISHED",
+      "utcDate": "2026-06-15T16:00Z",
+      "group": "H"
+    },
+    {
+      "homeTeam": "BEL",
+      "awayTeam": "EGY",
+      "homeScore": 1,
+      "awayScore": 1,
+      "status": "FINISHED",
+      "utcDate": "2026-06-15T19:00Z",
+      "group": "G"
+    },
+    {
+      "homeTeam": "KSA",
+      "awayTeam": "URU",
+      "homeScore": 1,
+      "awayScore": 1,
+      "status": "FINISHED",
+      "utcDate": "2026-06-15T22:00Z",
+      "group": "H"
+    },
+    {
+      "homeTeam": "IRN",
+      "awayTeam": "NZL",
+      "homeScore": 2,
+      "awayScore": 2,
+      "status": "FINISHED",
+      "utcDate": "2026-06-16T01:00Z",
+      "group": "G"
+    },
+    {
+      "homeTeam": "FRA",
+      "awayTeam": "SEN",
+      "homeScore": 3,
+      "awayScore": 1,
+      "status": "FINISHED",
+      "utcDate": "2026-06-16T19:00Z",
+      "group": "I"
+    },
+    {
+      "homeTeam": "IRQ",
+      "awayTeam": "NOR",
+      "homeScore": 1,
+      "awayScore": 4,
+      "status": "FINISHED",
+      "utcDate": "2026-06-16T22:00Z",
+      "group": "I"
+    },
+    {
+      "homeTeam": "ARG",
+      "awayTeam": "ALG",
+      "homeScore": 3,
+      "awayScore": 0,
+      "status": "FINISHED",
+      "utcDate": "2026-06-17T01:00Z",
+      "group": "J"
+    },
+    {
+      "homeTeam": "AUT",
+      "awayTeam": "JOR",
+      "homeScore": 3,
+      "awayScore": 1,
+      "status": "FINISHED",
+      "utcDate": "2026-06-17T04:00Z",
+      "group": "J"
+    },
+    {
+      "homeTeam": "POR",
+      "awayTeam": "COD",
+      "homeScore": 1,
+      "awayScore": 1,
+      "status": "FINISHED",
+      "utcDate": "2026-06-17T17:00Z",
+      "group": "K"
+    },
+    {
+      "homeTeam": "ENG",
+      "awayTeam": "CRO",
+      "homeScore": 4,
+      "awayScore": 2,
+      "status": "FINISHED",
+      "utcDate": "2026-06-17T20:00Z",
+      "group": "L"
+    },
+    {
+      "homeTeam": "GHA",
+      "awayTeam": "PAN",
+      "homeScore": 1,
+      "awayScore": 0,
+      "status": "FINISHED",
+      "utcDate": "2026-06-17T23:00Z",
+      "group": "L"
+    },
+    {
+      "homeTeam": "UZB",
+      "awayTeam": "COL",
+      "homeScore": 1,
+      "awayScore": 3,
+      "status": "FINISHED",
+      "utcDate": "2026-06-18T02:00Z",
+      "group": "K"
+    },
+    {
+      "homeTeam": "CZE",
+      "awayTeam": "RSA",
+      "homeScore": 1,
+      "awayScore": 1,
+      "status": "FINISHED",
+      "utcDate": "2026-06-18T16:00Z",
+      "group": "A"
+    },
+    {
+      "homeTeam": "SUI",
+      "awayTeam": "BIH",
+      "homeScore": 4,
+      "awayScore": 1,
+      "status": "FINISHED",
+      "utcDate": "2026-06-18T19:00Z",
+      "group": "B"
+    },
+    {
+      "homeTeam": "CAN",
+      "awayTeam": "QAT",
+      "homeScore": 6,
+      "awayScore": 0,
+      "status": "FINISHED",
+      "utcDate": "2026-06-18T22:00Z",
+      "group": "B"
+    },
+    {
+      "homeTeam": "MEX",
+      "awayTeam": "KOR",
+      "homeScore": 1,
+      "awayScore": 0,
+      "status": "FINISHED",
+      "utcDate": "2026-06-19T01:00Z",
+      "group": "A"
+    },
+    {
+      "homeTeam": "USA",
+      "awayTeam": "AUS",
+      "homeScore": 2,
+      "awayScore": 0,
+      "status": "FINISHED",
+      "utcDate": "2026-06-19T19:00Z",
+      "group": "D"
+    },
+    {
+      "homeTeam": "SCO",
+      "awayTeam": "MAR",
+      "homeScore": 0,
+      "awayScore": 1,
+      "status": "FINISHED",
+      "utcDate": "2026-06-19T22:00Z",
+      "group": "C"
+    },
+    {
+      "homeTeam": "BRA",
+      "awayTeam": "HAI",
+      "homeScore": 3,
+      "awayScore": 0,
+      "status": "FINISHED",
+      "utcDate": "2026-06-20T00:30Z",
+      "group": "C"
+    },
+    {
+      "homeTeam": "TUR",
+      "awayTeam": "PAR",
+      "homeScore": 0,
+      "awayScore": 1,
+      "status": "FINISHED",
+      "utcDate": "2026-06-20T03:00Z",
+      "group": "D"
+    },
+    {
+      "homeTeam": "NED",
+      "awayTeam": "SWE",
+      "homeScore": 5,
+      "awayScore": 1,
+      "status": "FINISHED",
+      "utcDate": "2026-06-20T17:00Z",
+      "group": "F"
+    },
+    {
+      "homeTeam": "GER",
+      "awayTeam": "CIV",
+      "homeScore": 2,
+      "awayScore": 1,
+      "status": "FINISHED",
+      "utcDate": "2026-06-20T20:00Z",
+      "group": "E"
+    },
+    {
+      "homeTeam": "ECU",
+      "awayTeam": "CUW",
+      "homeScore": null,
+      "awayScore": null,
+      "status": "SCHEDULED",
+      "utcDate": "2026-06-21T00:00Z",
+      "group": "E"
+    }
   ],
   "knockoutMatches": []
 }
