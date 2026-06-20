@@ -464,6 +464,32 @@ function simulateGroupDeterministic(groupTeams, liveMatches = []) {
   return { sorted, standings };
 }
 
+function computeRealStandings(groupTeams, liveMatches) {
+  const st = {};
+  groupTeams.forEach(t => (st[t] = { played: 0, won: 0, drawn: 0, lost: 0, gf: 0, ga: 0, gd: 0, pts: 0 }));
+  for (let i = 0; i < groupTeams.length; i++) {
+    for (let j = i + 1; j < groupTeams.length; j++) {
+      const a = groupTeams[i], b = groupTeams[j];
+      const m = liveMatches.find(x =>
+        x.status === 'FINISHED' && x.homeScore !== null &&
+        ((x.homeTeam === a && x.awayTeam === b) || (x.homeTeam === b && x.awayTeam === a))
+      );
+      if (!m) continue;
+      const gA = m.homeTeam === a ? m.homeScore : m.awayScore;
+      const gB = m.homeTeam === a ? m.awayScore : m.homeScore;
+      st[a].played++; st[b].played++;
+      st[a].gf += gA; st[a].ga += gB; st[a].gd += gA - gB;
+      st[b].gf += gB; st[b].ga += gA; st[b].gd += gB - gA;
+      if (gA > gB)      { st[a].won++; st[a].pts += 3; st[b].lost++; }
+      else if (gB > gA) { st[b].won++; st[b].pts += 3; st[a].lost++; }
+      else              { st[a].drawn++; st[a].pts++; st[b].drawn++; st[b].pts++; }
+    }
+  }
+  return Object.keys(st)
+    .sort((a, b) => st[b].pts - st[a].pts || st[b].gd - st[a].gd || st[b].gf - st[a].gf)
+    .map(code => ({ code, ...st[code] }));
+}
+
 function runBracketPreview(liveGroupMatches = [], mcWinPcts = {}) {
   const hasMC = Object.keys(mcWinPcts).length > 0;
   // When MC data is available, pick the team with higher MC win% so the
@@ -1041,75 +1067,125 @@ export default function App() {
 
         {/* BRACKET TAB */}
         {activeTab === "bracket" && (() => {
-          const t = (code) => TEAMS_DATA[code] || { name: code, flag: "🏳️" };
-          const MatchBox = ({ pair, highlight }) => {
-            if (!pair) return <div style={{ height: 60, background: "rgba(255,255,255,0.02)", borderRadius: 3, border: "1px solid rgba(255,255,255,0.05)" }} />;
-            const { t1, t2, winner } = pair;
-            const tm1 = t(t1), tm2 = t2 ? t(t2) : null;
+          const tm = (code) => TEAMS_DATA[code] || { name: code, flag: "🏳️" };
+
+          if (!bracketPreview) {
             return (
-              <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 3, overflow: "hidden", fontSize: 11 }}>
-                {[{ code: t1, tm: tm1 }, { code: t2, tm: tm2 }].map(({ code, tm }, i) => (
-                  <div key={i} style={{
-                    display: "flex", alignItems: "center", gap: 6, padding: "5px 8px",
-                    background: code && code === winner ? "rgba(255,215,0,0.08)" : "transparent",
-                    borderBottom: i === 0 ? "1px solid rgba(255,255,255,0.05)" : "none",
-                  }}>
-                    <span style={{ fontSize: 14 }}>{tm?.flag || "🏳️"}</span>
-                    <span style={{ flex: 1, color: code && code === winner ? "#FFD700" : tm ? "#E8E4D4" : "rgba(255,255,255,0.2)", fontWeight: code === winner ? 700 : 400 }}>
-                      {tm ? tm.name : "TBD"}
-                    </span>
-                    {code === winner && <span style={{ fontSize: 10, color: "#FFD700" }}>✓</span>}
-                  </div>
-                ))}
+              <div style={{ textAlign: "center", padding: "60px 24px", color: "rgba(232,228,212,0.4)" }}>
+                <div style={{ fontSize: 32, marginBottom: 12 }}>🏆</div>
+                <div>Run the simulation to generate a predicted bracket</div>
+              </div>
+            );
+          }
+
+          const CELL_H = 1120;
+          const R32_DATES = ['Jul 1','Jul 1','Jul 1','Jul 1','Jul 2','Jul 2','Jul 2','Jul 2','Jul 3','Jul 3','Jul 3','Jul 3','Jul 4','Jul 4','Jul 4','Jul 4'];
+          const R16_DATES = ['Jul 6','Jul 6','Jul 7','Jul 7','Jul 8','Jul 8','Jul 9','Jul 9'];
+          const QF_DATES  = ['Jul 11','Jul 11','Jul 12','Jul 12'];
+          const SF_DATES  = ['Jul 14','Jul 15'];
+
+          const BracketBox = ({ pair, date }) => {
+            if (!pair) return <div style={{ width: 172, height: 46 }} />;
+            const { t1, t2, winner } = pair;
+            return (
+              <div style={{ width: 172 }}>
+                {date && <div style={{ fontSize: 9, color: "rgba(255,215,0,0.45)", marginBottom: 2, paddingLeft: 2, letterSpacing: 1 }}>{date}</div>}
+                <div style={{ border: "1px solid rgba(255,255,255,0.1)", borderRadius: 3, overflow: "hidden", fontSize: 11, background: "rgba(255,255,255,0.03)" }}>
+                  {[t1, t2].map((code, i) => {
+                    const team = code ? tm(code) : null;
+                    const isWin = code && code === winner;
+                    return (
+                      <div key={i} style={{
+                        display: "flex", alignItems: "center", gap: 5, padding: "5px 8px",
+                        background: isWin ? "rgba(255,215,0,0.10)" : "transparent",
+                        borderBottom: i === 0 ? "1px solid rgba(255,255,255,0.07)" : "none",
+                      }}>
+                        <span style={{ fontSize: 13, lineHeight: 1 }}>{team?.flag || "🏳️"}</span>
+                        <span style={{ flex: 1, color: isWin ? "#FFD700" : team ? "#CCC8BC" : "rgba(255,255,255,0.18)", fontWeight: isWin ? 700 : 400, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                          {team ? team.name : "TBD"}
+                        </span>
+                        {isWin && <span style={{ fontSize: 8, color: "#FFD700" }}>▶</span>}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             );
           };
 
-          const RoundSection = ({ title, pairs, cols = 2 }) => (
-            <div style={{ marginBottom: 24 }}>
-              <div style={{ fontSize: 10, letterSpacing: 4, color: "rgba(255,215,0,0.5)", marginBottom: 10, textTransform: "uppercase" }}>{title}</div>
-              <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: 6 }}>
-                {(pairs || []).map((pair, i) => <MatchBox key={i} pair={pair} />)}
-              </div>
+          // SVG connector: draws fork lines from current-round pairs to next-round matches
+          const Connector = ({ matchCount }) => {
+            const pairs = matchCount / 2;
+            const segs = [];
+            for (let j = 0; j < pairs; j++) {
+              const y1  = CELL_H * (4 * j + 1) / (2 * matchCount);
+              const y2  = CELL_H * (4 * j + 3) / (2 * matchCount);
+              const mid = (y1 + y2) / 2;
+              segs.push(`M 0 ${y1} H 14 V ${y2} M 0 ${y2} H 14 M 14 ${mid} H 28`);
+            }
+            return (
+              <svg width={28} height={CELL_H} style={{ flexShrink: 0, display: "block" }}>
+                <path d={segs.join(" ")} stroke="rgba(255,215,0,0.22)" strokeWidth={1} fill="none" />
+              </svg>
+            );
+          };
+
+          const RoundCol = ({ pairs, dates }) => (
+            <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-around", height: CELL_H, flexShrink: 0 }}>
+              {(pairs || []).map((pair, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "center" }}>
+                  <BracketBox pair={pair} date={dates ? dates[i] : null} />
+                </div>
+              ))}
             </div>
           );
 
+          const ROUND_LABELS = ["Round of 32", "Round of 16", "Quarter-Finals", "Semi-Finals", "Final"];
+          const COL_W = [172, 28, 172, 28, 172, 28, 172, 28, 172];
+
           return (
             <div>
-              {!bracketPreview && (
-                <div style={{ textAlign: "center", padding: "60px 24px", color: "rgba(232,228,212,0.4)" }}>
-                  <div style={{ fontSize: 32, marginBottom: 12 }}>🏆</div>
-                  <div>Run the simulation to generate a predicted bracket</div>
-                </div>
-              )}
+              {/* Champion banner */}
+              <div style={{ textAlign: "center", marginBottom: 20 }}>
+                <div style={{ fontSize: 10, letterSpacing: 5, color: "rgba(255,215,0,0.5)", textTransform: "uppercase", marginBottom: 8 }}>Predicted Champion</div>
+                {(() => {
+                  const champ = tm(bracketPreview.champion);
+                  return (
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: 12, padding: "12px 28px", background: "linear-gradient(135deg,rgba(255,215,0,0.12),rgba(255,215,0,0.04))", border: "1px solid rgba(255,215,0,0.3)", borderRadius: 4 }}>
+                      <span style={{ fontSize: 32 }}>{champ.flag}</span>
+                      <div>
+                        <div style={{ fontSize: 20, fontWeight: 700, color: "#FFD700" }}>{champ.name}</div>
+                        {simResults && <div style={{ fontSize: 11, color: "rgba(255,215,0,0.6)" }}>{simResults.find(r => r.code === bracketPreview.champion)?.winPct}% win probability</div>}
+                      </div>
+                      <span style={{ fontSize: 24 }}>🏆</span>
+                    </div>
+                  );
+                })()}
+              </div>
 
-              {bracketPreview && (
-                <div>
-                  {/* Champion */}
-                  <div style={{ textAlign: "center", marginBottom: 28 }}>
-                    <div style={{ fontSize: 10, letterSpacing: 5, color: "rgba(255,215,0,0.5)", textTransform: "uppercase", marginBottom: 8 }}>Predicted Champion</div>
-                    {(() => {
-                      const champ = t(bracketPreview.champion);
-                      return (
-                        <div style={{ display: "inline-flex", alignItems: "center", gap: 12, padding: "12px 28px", background: "linear-gradient(135deg, rgba(255,215,0,0.12), rgba(255,215,0,0.04))", border: "1px solid rgba(255,215,0,0.3)", borderRadius: 4 }}>
-                          <span style={{ fontSize: 36 }}>{champ.flag}</span>
-                          <div>
-                            <div style={{ fontSize: 22, fontWeight: 700, color: "#FFD700" }}>{champ.name}</div>
-                            {simResults && <div style={{ fontSize: 12, color: "rgba(255,215,0,0.6)" }}>{simResults.find(r => r.code === bracketPreview.champion)?.winPct}% win probability</div>}
-                          </div>
-                          <span style={{ fontSize: 28 }}>🏆</span>
-                        </div>
-                      );
-                    })()}
+              {/* Round headers */}
+              <div style={{ display: "flex", overflowX: "auto", marginBottom: 4 }}>
+                {COL_W.map((w, i) => (
+                  <div key={i} style={{ minWidth: w, flexShrink: 0, fontSize: 9, letterSpacing: 3, color: "rgba(255,215,0,0.5)", textTransform: "uppercase", textAlign: "center" }}>
+                    {i % 2 === 0 ? ROUND_LABELS[i / 2] : ""}
                   </div>
+                ))}
+              </div>
 
-                  {bracketPreview.finalPair && <RoundSection title="Final — MetLife Stadium, New York · Jul 19, 2026" pairs={[bracketPreview.finalPair]} cols={1} />}
-                  {bracketPreview.sfPairs?.length > 0 && <RoundSection title="Semi-Finals · Jul 14–15, 2026" pairs={bracketPreview.sfPairs} cols={2} />}
-                  {bracketPreview.qfPairs?.length > 0 && <RoundSection title="Quarter-Finals · Jul 11–12, 2026" pairs={bracketPreview.qfPairs} cols={2} />}
-                  {bracketPreview.r16Pairs?.length > 0 && <RoundSection title="Round of 16 · Jul 6–9, 2026" pairs={bracketPreview.r16Pairs} cols={2} />}
-                  {bracketPreview.r32Pairs?.length > 0 && <RoundSection title="Round of 32 · Jul 1–4, 2026" pairs={bracketPreview.r32Pairs} cols={2} />}
+              {/* Bracket tree — horizontally scrollable */}
+              <div style={{ overflowX: "auto", overflowY: "auto", maxHeight: "78vh", paddingBottom: 12 }}>
+                <div style={{ display: "flex", height: CELL_H, width: "max-content" }}>
+                  <RoundCol pairs={bracketPreview.r32Pairs} dates={R32_DATES} />
+                  <Connector matchCount={16} />
+                  <RoundCol pairs={bracketPreview.r16Pairs} dates={R16_DATES} />
+                  <Connector matchCount={8} />
+                  <RoundCol pairs={bracketPreview.qfPairs} dates={QF_DATES} />
+                  <Connector matchCount={4} />
+                  <RoundCol pairs={bracketPreview.sfPairs} dates={SF_DATES} />
+                  <Connector matchCount={2} />
+                  <RoundCol pairs={bracketPreview.finalPair ? [bracketPreview.finalPair] : []} dates={["Jul 19"]} />
                 </div>
-              )}
+              </div>
 
               {/* Historical Champions */}
               <div style={{ marginTop: 40, borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 28 }}>
@@ -1157,6 +1233,59 @@ export default function App() {
                 }}>Group {grp}</button>
               ))}
             </div>
+
+            {/* Live standings table */}
+            {(() => {
+              const gTeams = GROUPS[selectedGroup];
+              const gLive = (liveData.groupMatches || []).filter(m => m.group === selectedGroup);
+              const rows = computeRealStandings(gTeams, gLive);
+              if (!rows.some(r => r.played > 0)) return null;
+              return (
+                <div style={{ marginBottom: 24 }}>
+                  <div style={{ fontSize: 11, letterSpacing: 4, color: "rgba(255,215,0,0.5)", marginBottom: 10, textTransform: "uppercase" }}>
+                    Group {selectedGroup} — Current Standings
+                  </div>
+                  <div style={{ overflowX: "auto" }}>
+                    <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12 }}>
+                      <thead>
+                        <tr style={{ color: "rgba(255,255,255,0.35)", fontSize: 10, letterSpacing: 1, borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+                          {["#","Team","P","W","D","L","GF","GA","GD","Pts"].map((h, i) => (
+                            <th key={h} style={{ padding: "5px 8px", textAlign: i <= 1 ? "left" : "center", fontWeight: 600, color: h === "Pts" ? "rgba(255,215,0,0.7)" : undefined }}>{h}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rows.map((row, idx) => {
+                          const team = TEAMS_DATA[row.code];
+                          const adv = idx < 2;
+                          return (
+                            <tr key={row.code} style={{ background: idx % 2 === 0 ? "rgba(255,255,255,0.02)" : "transparent", borderLeft: `3px solid ${adv ? "rgba(255,215,0,0.4)" : "transparent"}` }}>
+                              <td style={{ padding: "7px 8px", textAlign: "center", color: "rgba(255,255,255,0.3)", fontSize: 11 }}>{idx + 1}</td>
+                              <td style={{ padding: "7px 8px" }}>
+                                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                                  <span style={{ fontSize: 16 }}>{team?.flag}</span>
+                                  <span style={{ fontWeight: adv ? 600 : 400, color: adv ? "#E8E4D4" : "rgba(232,228,212,0.65)" }}>{team?.name || row.code}</span>
+                                </div>
+                              </td>
+                              <td style={{ padding: "7px 8px", textAlign: "center", color: "rgba(255,255,255,0.45)" }}>{row.played}</td>
+                              <td style={{ padding: "7px 8px", textAlign: "center", color: row.won > 0 ? "#4fc3f7" : "rgba(255,255,255,0.3)" }}>{row.won}</td>
+                              <td style={{ padding: "7px 8px", textAlign: "center", color: "rgba(255,255,255,0.35)" }}>{row.drawn}</td>
+                              <td style={{ padding: "7px 8px", textAlign: "center", color: row.lost > 0 ? "rgba(255,90,90,0.7)" : "rgba(255,255,255,0.3)" }}>{row.lost}</td>
+                              <td style={{ padding: "7px 8px", textAlign: "center", color: "rgba(255,255,255,0.55)" }}>{row.gf}</td>
+                              <td style={{ padding: "7px 8px", textAlign: "center", color: "rgba(255,255,255,0.55)" }}>{row.ga}</td>
+                              <td style={{ padding: "7px 8px", textAlign: "center", color: row.gd > 0 ? "#4fc3f7" : row.gd < 0 ? "rgba(255,90,90,0.7)" : "rgba(255,255,255,0.4)" }}>
+                                {row.gd > 0 ? `+${row.gd}` : row.gd}
+                              </td>
+                              <td style={{ padding: "7px 8px", textAlign: "center", fontWeight: 700, color: adv ? "#FFD700" : "#E8E4D4" }}>{row.pts}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              );
+            })()}
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
               {/* Group teams */}
