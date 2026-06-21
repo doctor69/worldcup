@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-20T22:15:33.956Z",
+  "lastUpdated": "2026-06-21T04:59:55.705Z",
   "groupMatches": [
     {
       "homeTeam": "MEX",
@@ -310,11 +310,56 @@
     {
       "homeTeam": "ECU",
       "awayTeam": "CUW",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "FINISHED",
+      "utcDate": "2026-06-21T00:00Z",
+      "group": "E"
+    },
+    {
+      "homeTeam": "TUN",
+      "awayTeam": "JPN",
+      "homeScore": 0,
+      "awayScore": 2,
+      "status": "IN_PLAY",
+      "utcDate": "2026-06-21T04:00Z",
+      "group": "F"
+    },
+    {
+      "homeTeam": "ESP",
+      "awayTeam": "KSA",
       "homeScore": null,
       "awayScore": null,
       "status": "SCHEDULED",
-      "utcDate": "2026-06-21T00:00Z",
-      "group": "E"
+      "utcDate": "2026-06-21T16:00Z",
+      "group": "H"
+    },
+    {
+      "homeTeam": "BEL",
+      "awayTeam": "IRN",
+      "homeScore": null,
+      "awayScore": null,
+      "status": "SCHEDULED",
+      "utcDate": "2026-06-21T19:00Z",
+      "group": "G"
+    },
+    {
+      "homeTeam": "URU",
+      "awayTeam": "CPV",
+      "homeScore": null,
+      "awayScore": null,
+      "status": "SCHEDULED",
+      "utcDate": "2026-06-21T22:00Z",
+      "group": "H"
+    },
+    {
+      "homeTeam": "NZL",
+      "awayTeam": "EGY",
+      "homeScore": null,
+      "awayScore": null,
+      "status": "SCHEDULED",
+      "utcDate": "2026-06-22T01:00Z",
+      "group": "G"
     }
   ],
   "knockoutMatches": []
