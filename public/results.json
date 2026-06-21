@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-21T19:53:00.682Z",
+  "lastUpdated": "2026-06-21T22:18:54.559Z",
   "groupMatches": [
     {
       "homeTeam": "MEX",
@@ -339,16 +339,16 @@
       "awayTeam": "IRN",
       "homeScore": 0,
       "awayScore": 0,
-      "status": "IN_PLAY",
+      "status": "FINISHED",
       "utcDate": "2026-06-21T19:00Z",
       "group": "G"
     },
     {
       "homeTeam": "URU",
       "awayTeam": "CPV",
-      "homeScore": null,
-      "awayScore": null,
-      "status": "SCHEDULED",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "IN_PLAY",
       "utcDate": "2026-06-21T22:00Z",
       "group": "H"
     },
