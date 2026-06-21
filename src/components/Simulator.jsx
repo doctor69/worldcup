@@ -606,7 +606,7 @@ export default function App() {
   const workerRef = useRef(null);
 
   useEffect(() => {
-    fetch('/worldcup/results.json')
+    fetch(`/worldcup/results.json?v=${Date.now()}`, { cache: 'no-store' })
       .then(r => r.ok ? r.json() : null)
       .then(data => { if (data) setLiveData(data); })
       .catch(() => {});
