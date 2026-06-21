@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-21T09:59:17.504Z",
+  "lastUpdated": "2026-06-21T19:53:00.682Z",
   "groupMatches": [
     {
       "homeTeam": "MEX",
@@ -328,18 +328,18 @@
     {
       "homeTeam": "ESP",
       "awayTeam": "KSA",
-      "homeScore": null,
-      "awayScore": null,
-      "status": "SCHEDULED",
+      "homeScore": 4,
+      "awayScore": 0,
+      "status": "FINISHED",
       "utcDate": "2026-06-21T16:00Z",
       "group": "H"
     },
     {
       "homeTeam": "BEL",
       "awayTeam": "IRN",
-      "homeScore": null,
-      "awayScore": null,
-      "status": "SCHEDULED",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "IN_PLAY",
       "utcDate": "2026-06-21T19:00Z",
       "group": "G"
     },
