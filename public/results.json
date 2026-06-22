@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-22T05:07:55.410Z",
+  "lastUpdated": "2026-06-22T22:50:42.543Z",
   "groupMatches": [
     {
       "homeTeam": "MEX",
@@ -364,18 +364,18 @@
     {
       "homeTeam": "ARG",
       "awayTeam": "AUT",
-      "homeScore": null,
-      "awayScore": null,
-      "status": "SCHEDULED",
+      "homeScore": 2,
+      "awayScore": 0,
+      "status": "FINISHED",
       "utcDate": "2026-06-22T17:00Z",
       "group": "J"
     },
     {
       "homeTeam": "FRA",
       "awayTeam": "IRQ",
-      "homeScore": null,
-      "awayScore": null,
-      "status": "SCHEDULED",
+      "homeScore": 1,
+      "awayScore": 0,
+      "status": "IN_PLAY",
       "utcDate": "2026-06-22T21:00Z",
       "group": "I"
     },
