@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-23T20:14:26.372Z",
+  "lastUpdated": "2026-06-23T22:19:06.911Z",
   "groupMatches": [
     {
       "homeTeam": "MEX",
@@ -411,7 +411,7 @@
       "awayTeam": "GHA",
       "homeScore": 0,
       "awayScore": 0,
-      "status": "IN_PLAY",
+      "status": "FINISHED",
       "utcDate": "2026-06-23T20:00Z",
       "group": "L"
     },
