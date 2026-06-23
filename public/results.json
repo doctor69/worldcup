@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-22T22:50:42.543Z",
+  "lastUpdated": "2026-06-23T04:05:50.274Z",
   "groupMatches": [
     {
       "homeTeam": "MEX",
@@ -373,29 +373,65 @@
     {
       "homeTeam": "FRA",
       "awayTeam": "IRQ",
-      "homeScore": 1,
+      "homeScore": 3,
       "awayScore": 0,
-      "status": "IN_PLAY",
+      "status": "FINISHED",
       "utcDate": "2026-06-22T21:00Z",
       "group": "I"
     },
     {
       "homeTeam": "NOR",
       "awayTeam": "SEN",
-      "homeScore": null,
-      "awayScore": null,
-      "status": "SCHEDULED",
+      "homeScore": 3,
+      "awayScore": 2,
+      "status": "FINISHED",
       "utcDate": "2026-06-23T00:00Z",
       "group": "I"
     },
     {
       "homeTeam": "JOR",
       "awayTeam": "ALG",
+      "homeScore": 1,
+      "awayScore": 0,
+      "status": "IN_PLAY",
+      "utcDate": "2026-06-23T03:00Z",
+      "group": "J"
+    },
+    {
+      "homeTeam": "POR",
+      "awayTeam": "UZB",
       "homeScore": null,
       "awayScore": null,
       "status": "SCHEDULED",
-      "utcDate": "2026-06-23T03:00Z",
-      "group": "J"
+      "utcDate": "2026-06-23T17:00Z",
+      "group": "K"
+    },
+    {
+      "homeTeam": "ENG",
+      "awayTeam": "GHA",
+      "homeScore": null,
+      "awayScore": null,
+      "status": "SCHEDULED",
+      "utcDate": "2026-06-23T20:00Z",
+      "group": "L"
+    },
+    {
+      "homeTeam": "PAN",
+      "awayTeam": "CRO",
+      "homeScore": null,
+      "awayScore": null,
+      "status": "SCHEDULED",
+      "utcDate": "2026-06-23T23:00Z",
+      "group": "L"
+    },
+    {
+      "homeTeam": "COL",
+      "awayTeam": "COD",
+      "homeScore": null,
+      "awayScore": null,
+      "status": "SCHEDULED",
+      "utcDate": "2026-06-24T02:00Z",
+      "group": "K"
     }
   ],
   "knockoutMatches": []
