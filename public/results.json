@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-23T09:55:55.574Z",
+  "lastUpdated": "2026-06-23T20:14:26.372Z",
   "groupMatches": [
     {
       "homeTeam": "MEX",
@@ -400,18 +400,18 @@
     {
       "homeTeam": "POR",
       "awayTeam": "UZB",
-      "homeScore": null,
-      "awayScore": null,
-      "status": "SCHEDULED",
+      "homeScore": 5,
+      "awayScore": 0,
+      "status": "FINISHED",
       "utcDate": "2026-06-23T17:00Z",
       "group": "K"
     },
     {
       "homeTeam": "ENG",
       "awayTeam": "GHA",
-      "homeScore": null,
-      "awayScore": null,
-      "status": "SCHEDULED",
+      "homeScore": 0,
+      "awayScore": 0,
+      "status": "IN_PLAY",
       "utcDate": "2026-06-23T20:00Z",
       "group": "L"
     },
