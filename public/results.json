@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-24T04:09:15.611Z",
+  "lastUpdated": "2026-06-24T22:23:03.849Z",
   "groupMatches": [
     {
       "homeTeam": "MEX",
@@ -436,36 +436,36 @@
     {
       "homeTeam": "BIH",
       "awayTeam": "QAT",
-      "homeScore": null,
-      "awayScore": null,
-      "status": "SCHEDULED",
+      "homeScore": 3,
+      "awayScore": 1,
+      "status": "FINISHED",
       "utcDate": "2026-06-24T19:00Z",
       "group": "B"
     },
     {
       "homeTeam": "SUI",
       "awayTeam": "CAN",
-      "homeScore": null,
-      "awayScore": null,
-      "status": "SCHEDULED",
+      "homeScore": 2,
+      "awayScore": 1,
+      "status": "FINISHED",
       "utcDate": "2026-06-24T19:00Z",
       "group": "B"
     },
     {
       "homeTeam": "MAR",
       "awayTeam": "HAI",
-      "homeScore": null,
-      "awayScore": null,
-      "status": "SCHEDULED",
+      "homeScore": 0,
+      "awayScore": 1,
+      "status": "IN_PLAY",
       "utcDate": "2026-06-24T22:00Z",
       "group": "C"
     },
     {
       "homeTeam": "SCO",
       "awayTeam": "BRA",
-      "homeScore": null,
-      "awayScore": null,
-      "status": "SCHEDULED",
+      "homeScore": 0,
+      "awayScore": 1,
+      "status": "IN_PLAY",
       "utcDate": "2026-06-24T22:00Z",
       "group": "C"
     },
