@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-25T04:09:27.769Z",
+  "lastUpdated": "2026-06-25T22:25:12.487Z",
   "groupMatches": [
     {
       "homeTeam": "MEX",
@@ -490,18 +490,18 @@
     {
       "homeTeam": "CUW",
       "awayTeam": "CIV",
-      "homeScore": null,
-      "awayScore": null,
-      "status": "SCHEDULED",
+      "homeScore": 0,
+      "awayScore": 2,
+      "status": "FINISHED",
       "utcDate": "2026-06-25T20:00Z",
       "group": "E"
     },
     {
       "homeTeam": "ECU",
       "awayTeam": "GER",
-      "homeScore": null,
-      "awayScore": null,
-      "status": "SCHEDULED",
+      "homeScore": 2,
+      "awayScore": 1,
+      "status": "FINISHED",
       "utcDate": "2026-06-25T20:00Z",
       "group": "E"
     },
