@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-27T04:02:27.932Z",
+  "lastUpdated": "2026-06-27T08:45:02.320Z",
   "groupMatches": [
     {
       "homeTeam": "MEX",
@@ -582,16 +582,16 @@
       "awayTeam": "IRN",
       "homeScore": 1,
       "awayScore": 1,
-      "status": "IN_PLAY",
+      "status": "FINISHED",
       "utcDate": "2026-06-27T03:00Z",
       "group": "G"
     },
     {
       "homeTeam": "NZL",
       "awayTeam": "BEL",
-      "homeScore": 0,
-      "awayScore": 1,
-      "status": "IN_PLAY",
+      "homeScore": 1,
+      "awayScore": 5,
+      "status": "FINISHED",
       "utcDate": "2026-06-27T03:00Z",
       "group": "G"
     },
